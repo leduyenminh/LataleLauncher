@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <!-- Equivalent to version 2503000000L to 2503000001L -->
+    <changeSet id="2503000000-to-2503000001" author="migration">
+        <createTable tableName="USER">
+            <column name="user_id" type="varchar(512)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="userName" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="occupation" type="varchar(50)"/>
+            <column name="level" type="LONGTEXT"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Equivalent to version 2503000001L to 2503000002L -->
+    <changeSet id="2503000001-to-2503000002" author="migration">
+        <createTable tableName="CHARACTER">
+            <column name="bonus_id" type="varchar(512)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="bonus_description" type="varchar(50)"/>
+            <column name="customer_id" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expireDate" type="LONGTEXT"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Equivalent to version 2503000002L to 2509000000L -->
+    <changeSet id="2503000002-to-2509000000" author="migration">
+        <addColumn tableName="CUSTOMER_INFO">
+            <column name="customer_address" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

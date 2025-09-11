@@ -4,23 +4,23 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.springdatajpa</groupId>
-    <artifactId>springdatajpa</artifactId>
+    <groupId>com.springLataleLauncher</groupId>
+    <artifactId>springLataleLauncher</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>springdatajpa</name>
-    <description>Spring Data JPA Example</description>
+    <name>springLataleLauncher</name>
+    <description>Spring Latale Launcher Example</description>
 
     <properties>
-        <java.version>11</java.version>
-        <spring.boot.version>2.7.13</spring.boot.version>
+        <java.version>21</java.version>
+        <spring.boot.version>3.5.4</spring.boot.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.13</version>
+        <version>3.5.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>2.2.0</version>
+            <version>3.3.2</version>
         </dependency>
 
         <!-- MySQL driver for runtime -->
@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.28</version>
+            <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
 
@@ -71,6 +71,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -92,6 +97,27 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
             <version>3.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+        <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+<!--    -->
+<!--      <dependency>-->
+<!--        <groupId>org.hibernate</groupId>-->
+<!--        <artifactId>hibernate-core</artifactId>-->
+<!--        <version>5.6.15.Final</version>-->
+<!--      </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>3.2.4</version>
         </dependency>
 
     </dependencies>

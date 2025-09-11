@@ -1,0 +1,194 @@
+package com.springLataleLauncher.demo.DAO.impl;
+
+import com.springLataleLauncher.demo.interfaces.CharacterRequest;
+import com.springLataleLauncher.demo.entity.Characters;
+import com.springLataleLauncher.demo.repository.CharacterRepository;
+
+import com.springLataleLauncher.demo.DAO.CharacterServiceDAO;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
+@Service
+@Transactional // Apply transactional behavior at the class level
+public class CharacterServiceDAOImpl implements CharacterServiceDAO {
+
+    @Autowired
+    private CharacterRepository characterRepository;
+
+    @PersistenceContext
+    private EntityManager em;
+
+    /**
+     * Example query method
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    @CachePut(value = "characters", key = "#characters.id")
+    public Characters createNewCharacter(Characters characters) {
+        return characterRepository.save(characters);
+    }
+
+	// CACHING
+    /**
+     * The method returns the character,
+     only it doesn't find it the cache.
+     *
+     * @return list of characters
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    @Cacheable(value = "characters")
+    public List<Characters> getAllCharacters() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Characters> cq = cb.createQuery(Characters.class);
+        Root<Characters> root = cq.from(Characters.class);
+        cq.select(root);
+        return em.createQuery(cq).getResultList();
+    }
+
+		@Override
+		@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    public Characters findCharacterById(Long id) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Characters> cq = cb.createQuery(Characters.class);
+        Root<Characters> root = cq.from(Characters.class);
+        cq.select(root).where(cb.equal(root.get("id"), id));
+        return em.createQuery(cq).getSingleResult();
+    }
+
+		@Override
+		@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    public List<Characters> findCharacterByClass(String charClass) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Characters> cq = cb.createQuery(Characters.class);
+        Root<Characters> root = cq.from(Characters.class);
+        cq.select(root).where(cb.equal(root.get("characterClass"), charClass));;
+        return em.createQuery(cq).getResultList();
+    }
+
+
+		@Override
+		@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    public Characters updateCharacter(Long id, String newBio) {
+        Characters characters = characterRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Character not found with id: " + id));
+
+        characters.setBio(newBio);
+
+        return characterRepository.save(characters);
+    }
+
+    /**
+     * Example transaction
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    public void performMultipleOperations() {
+        // Perform multiple database operations within a transaction
+        Characters char1 = new Characters();
+        Characters char2 = new Characters();
+
+        // Save characters to db
+        characterRepository.save(char1);
+        characterRepository.save(char2);
+
+        // Update character bio status
+        char1.setBio("this character is for testing, he is a warrior");
+        characterRepository.save(char1);
+
+        // Delete character
+        characterRepository.delete(char2);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    public void createTaskRollback(Characters characters) {
+        try {
+            // Thực hiện thao tác lưu người dùng vào cơ sở dữ liệu
+            characterRepository.save(characters);
+
+            // Ném một ngoại lệ để tạo ra một tình huống lỗi
+            throw new RuntimeException("Error occurred");
+
+        } catch (Exception e) {
+            // Xảy ra lỗi, giao dịch sẽ được rollback
+            throw new RuntimeException("Failed to create task: " + e.getMessage());
+        }
+    }
+
+    public Page<Characters> findAllWithPagingAndSorting(Pageable pageable) {
+        return characterRepository.findAllWithPagingAndSorting(pageable);
+    }
+
+    @Override
+		@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    public List<Characters> getAllCharactersNativeQuery() {
+        return List.of();
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    public void insertCharacter(CharacterRequest characterRequest) {
+        characterRepository.insertCharacter(characterRequest.getCharacterClass().toString(),
+                characterRequest.getCharacterName(),
+                characterRequest.getBio(),
+                //should get current datetime
+                characterRequest.getCreatedAt());
+    }
+
+    /**
+     * Bulk create
+     */
+    @Override
+		@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    public void bulkCreateCharacterItems(List<CharacterRequest> characterRequests) {
+        List<Characters> charactersList = characterRequests.stream()
+                .map(this::mapToCharacters)
+                .collect(Collectors.toList());
+        characterRepository.saveAll(charactersList);
+    }
+
+    private Characters mapToCharacters(CharacterRequest characterRequest) {
+        Characters characters = new Characters();
+        characters.setBio(characterRequest.getBio());
+        return characters;
+    }
+
+
+    /**
+     * The method returns the tasks,
+     but refreshes all the entries in the cache to load new ones.
+     *
+     * @return the character list
+     */
+
+    @CacheEvict(value = "characters", allEntries = true)
+    public void deleteById(Long id) {
+        characterRepository.deleteById(id);
+    }
+
+    private List<Characters> fetchAllTodosFromRepository() {
+        return (List<Characters>) characterRepository.findAll();
+    }
+
+    @Override
+    public Characters updateCharacterException(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateCharacter'");
+    }
+}

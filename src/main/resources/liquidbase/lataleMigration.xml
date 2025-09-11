@@ -7,7 +7,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
     <!-- Equivalent to version 2503000000L to 2503000001L -->
-    <changeSet id="2503000000-to-2503000001" author="migration">
+    <changeSet userId="2503000000-to-2503000001" author="migration">
         <createTable tableName="USER">
             <column name="user_id" type="varchar(512)">
                 <constraints primaryKey="true" nullable="false"/>
@@ -21,7 +21,7 @@
     </changeSet>
 
     <!-- Equivalent to version 2503000001L to 2503000002L -->
-    <changeSet id="2503000001-to-2503000002" author="migration">
+    <changeSet userId="2503000001-to-2503000002" author="migration">
         <createTable tableName="CHARACTER">
             <column name="bonus_id" type="varchar(512)">
                 <constraints primaryKey="true" nullable="false"/>
@@ -35,12 +35,18 @@
     </changeSet>
 
     <!-- Equivalent to version 2503000002L to 2509000000L -->
-    <changeSet id="2503000002-to-2509000000" author="migration">
+    <changeSet userId="2503000002-to-2509000000" author="migration">
         <addColumn tableName="CUSTOMER_INFO">
             <column name="customer_address" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
         </addColumn>
+    </changeSet>
+
+    <changeSet userId="2509000000-to-2509000001" author="migration">
+      <createIndex indexName="IDX_CHARACTER" tableName="characters">
+          <column name="characterClass"/>
+      </createIndex>
     </changeSet>
 
 </databaseChangeLog>

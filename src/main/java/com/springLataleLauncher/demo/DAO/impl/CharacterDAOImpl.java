@@ -1,10 +1,9 @@
 package com.springLataleLauncher.demo.DAO.impl;
 
+import com.springLataleLauncher.demo.DAO.CharacterDAO;
 import com.springLataleLauncher.demo.interfaces.CharacterRequest;
 import com.springLataleLauncher.demo.entity.Characters;
 import com.springLataleLauncher.demo.repository.CharacterRepository;
-
-import com.springLataleLauncher.demo.DAO.CharacterServiceDAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional // Apply transactional behavior at the class level
-public class CharacterServiceDAOImpl implements CharacterServiceDAO {
+public class CharacterDAOImpl implements CharacterDAO {
 
     @Autowired
     private CharacterRepository characterRepository;

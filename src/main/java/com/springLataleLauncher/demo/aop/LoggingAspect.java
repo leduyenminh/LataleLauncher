@@ -23,6 +23,11 @@ public class LoggingAspect {
         logger.info("Entering: {}", joinPoint.getSignature());
     }
 
+    @After("execution(* com.example.service.*.*(..))")
+    public void logAfterMethodExecution(JoinPoint joinPoint) {
+        System.out.println("Method " + joinPoint.getSignature().getName() + " finished execution.");
+    }
+
     @AfterReturning(pointcut = "applicationPackagePointcut()", returning = "result")
     public void logMethodExit(JoinPoint joinPoint, Object result) {
         logger.debug("Exited: {} with result: {}", joinPoint.getSignature(), result);

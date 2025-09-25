@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.springLataleLauncher.demo.controllers.AuthApi;
 
 @ControllerAdvice(assignableTypes = {AuthApi.class})
-public class SecurityException extends RuntimeException {
+public class AuthException extends RuntimeException {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception ex) {
         // Handle general exceptions and return an appropriate error response

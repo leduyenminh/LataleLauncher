@@ -34,18 +34,20 @@ kind: Service
 metadata:
   name: kafka
 spec:
+  clusterIP: None   # Headless service, each pod gets its own DNS
   ports:
-  - port: 9092
-    targetPort: 9092
+    - port: 9092
+      name: broker
   selector:
     app: kafka
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: kafka
 spec:
-  replicas: 1
+  serviceName: kafka
+  replicas: 3
   selector:
     matchLabels:
       app: kafka
@@ -55,22 +57,49 @@ spec:
         app: kafka
     spec:
       containers:
-      - name: kafka
-        image: confluentinc/cp-kafka:7.5.0
-        ports:
-        - containerPort: 9092
-        env: 
-        - name: KAFKA_BROKER_ID
-          value: "1"
-        - name: KAFKA_ZOOKEEPER_CONNECT
-          value: zookeeper:2181
-        - name: KAFKA_LISTENERS
-          value: PLAINTEXT://0.0.0.0:9092
-        - name: KAFKA_ADVERTISED_LISTENERS
-          value: PLAINTEXT://kafka:9092
-        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
-          value: PLAINTEXT:PLAINTEXT
-        - name: KAFKA_INTER_BROKER_LISTENER_NAME
-          value: PLAINTEXT
-        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
-          value: "1"
+        - name: kafka
+          image: confluentinc/cp-kafka:7.5.0
+          ports:
+            - containerPort: 9092
+          env:
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: zookeeper:2181
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: PLAINTEXT:PLAINTEXT
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: PLAINTEXT
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "3"
+            - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+              value: "3"
+            - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+              value: "2"
+            - name: KAFKA_BROKER_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name   # kafka-0, kafka-1, kafka-2
+            - name: KAFKA_LISTENERS
+              value: PLAINTEXT://0.0.0.0:9092
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: PLAINTEXT://$(HOSTNAME).kafka:9092   # resolves to kafka-0.kafka, kafka-1.kafka, etc.
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: INTERNAL:PLAINTEXT,EXTERNAL:SASL_SSL
+            - name: KAFKA_LISTENERS
+              value: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9093
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: INTERNAL://$(HOSTNAME).kafka:9092,EXTERNAL://kafka:9093
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: INTERNAL
+            - name: KAFKA_SASL_ENABLED_MECHANISMS
+              value: SCRAM-SHA-512
+            - name: KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL
+              value: SCRAM-SHA-512
+            - name: KAFKA_SSL_KEYSTORE_FILENAME
+              value: kafka.keystore.jks
+            - name: KAFKA_SSL_KEYSTORE_CREDENTIALS
+              value: kafka_keystore_creds
+            - name: KAFKA_SSL_TRUSTSTORE_FILENAME
+              value: kafka.truststore.jks
+            - name: KAFKA_SSL_TRUSTSTORE_CREDENTIALS
+              value: kafka_truststore_creds
+

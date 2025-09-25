@@ -10,11 +10,29 @@ public class KafkaTopicConfig {
   
   @Bean
   public NewTopic userTopic() {
-    return new NewTopic("user.events", 3, (short) 1);
+    return TopicBuilder.name("user.events")
+            .partitions(3)
+            .replicas(3)
+            .compact()    // keep latest state per userId (good for user profile updates)
+            .build();
   }
 
 	@Bean
   public NewTopic characterTopic() {
-    return TopicBuilder.name("character.events").build();
+    return TopicBuilder.name("character.events")
+            .partitions(6)
+            .replicas(3)
+            .config("cleanup.policy", "delete") // or compact if you want latest state
+            .config("retention.ms", String.valueOf(7 * 24 * 60 * 60 * 1000)) // keep 7 days
+            .build();
+  }
+
+  @Bean
+  public NewTopic auditTopic() {
+    return TopicBuilder.name("audit.events")
+            .partitions(6)
+            .replicas(3)
+            .config("retention.ms", String.valueOf(30L * 24 * 60 * 60 * 1000)) // keep 30 days
+            .build();
   }
 }

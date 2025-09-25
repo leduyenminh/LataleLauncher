@@ -8,7 +8,7 @@ import com.springLataleLauncher.demo.interfaces.CharacterRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface CharacterServiceDAO {
+public interface CharacterDAO {
 
     public Characters createNewCharacter(Characters characters);
     public List<Characters> getAllCharacters();

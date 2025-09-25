@@ -1,6 +1,6 @@
 package com.springLataleLauncher.demo.security;
 
-import com.springLataleLauncher.demo.DAO.UserServiceDAO;
+import com.springLataleLauncher.demo.DAO.UserDAO;
 import com.springLataleLauncher.demo.utils.JwtTokenUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +13,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.Filter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,18 +24,19 @@ import java.util.Optional;
 import static org.aspectj.util.LangUtil.isEmpty;
 
 @Component
-public class JwtTokenFilter implements Filter {
+public class JwtTokenFilter extends OncePerRequestFilter {
 
 	private final JwtTokenUtil jwtTokenUtil;
-    private final UserServiceDAO userServiceDAO;
+    private final UserDAO userDAO;
 
     @Autowired
     public JwtTokenFilter(JwtTokenUtil jwtTokenUtil,
-                          UserServiceDAO userServiceDAO) {
+                          UserDAO userDAO) {
         this.jwtTokenUtil = jwtTokenUtil;
-        this.userServiceDAO = userServiceDAO;
+        this.userDAO = userDAO;
     }
 
+    @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain)
@@ -54,7 +53,7 @@ public class JwtTokenFilter implements Filter {
 
         // Get user identity and set it on the spring security context
 
-        UserDetails userDetails = Optional.of(userServiceDAO
+        UserDetails userDetails = Optional.of(userDAO
             .loadUserByUsername(jwtTokenUtil.extractUsername(token)))
             .orElse(null);
 
@@ -79,11 +78,11 @@ public class JwtTokenFilter implements Filter {
     }
 
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'doFilter'");
-    }
+//    @Override
+//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+//            throws IOException, ServletException {
+//        // TODO Auto-generated method stub
+//        // throw new UnsupportedOperationException("Unimplemented method 'doFilter'");
+//    }
 	
 }

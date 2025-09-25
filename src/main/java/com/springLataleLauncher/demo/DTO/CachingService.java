@@ -1,4 +1,4 @@
-package com.springLataleLauncher.demo.service;
+package com.springLataleLauncher.demo.DTO;
 
 public interface CachingService {
     void evictAllCaches();

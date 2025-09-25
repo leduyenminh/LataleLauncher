@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public interface UserServiceDAO {
+public interface UserDAO {
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 		void deleteUserByUserName(Long userId) throws UsernameNotFoundException;
 		void modifyUserInfo(String usernam, String userInfo) throws UsernameNotFoundException;

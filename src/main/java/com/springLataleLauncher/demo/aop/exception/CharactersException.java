@@ -15,6 +15,6 @@ public class CharactersException extends RuntimeException {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex) {
         // Handle general exceptions and return an appropriate error response
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred : " + ex.getMessage() + "with this character");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred : " + ex.getMessage() + "with Character Controller");
     }
 }

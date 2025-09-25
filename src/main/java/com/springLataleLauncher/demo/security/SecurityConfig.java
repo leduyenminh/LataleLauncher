@@ -1,9 +1,8 @@
 package com.springLataleLauncher.demo.security;
 
 
-import com.springLataleLauncher.demo.DAO.UserServiceDAO;
+import com.springLataleLauncher.demo.DAO.UserDAO;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
@@ -29,12 +28,12 @@ import jakarta.servlet.http.HttpServletResponse;
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
-    private final UserServiceDAO userServiceDAO;
+    private final UserDAO userDAO;
     private final JwtTokenFilter jwtTokenFilter;
 
     @Autowired
-    public SecurityConfig(UserServiceDAO userServiceDAO, JwtTokenFilter jwtTokenFilter) {
-        this.userServiceDAO = userServiceDAO;
+    public SecurityConfig(UserDAO userDAO, JwtTokenFilter jwtTokenFilter) {
+        this.userDAO = userDAO;
         this.jwtTokenFilter = jwtTokenFilter;
     }
 
@@ -81,7 +80,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userServiceDAO::loadUserByUsername);
+        provider.setUserDetailsService(userDAO::loadUserByUsername);
                 // .orElseThrow(() -> new RuntimeException("User not found: " + username)));
         provider.setPasswordEncoder(passwordEncoder());
         return provider;

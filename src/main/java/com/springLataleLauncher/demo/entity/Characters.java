@@ -22,9 +22,9 @@ public class Characters {
     @Column(name = "characterBio")
     private String bio;
 
-//    @ManyToOne
-//    @JoinColumn(name = "characterUser")
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "FK_user_character"), nullable = false)
+    private User user;
 
     public String getBio() {
         return bio;
@@ -50,13 +50,13 @@ public class Characters {
         this.characterName = characterName;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Classes getCharacterClass() {
         return characterClass;
@@ -75,7 +75,7 @@ public class Characters {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCharacterId(), getCharacterName(), getCharacterClass(), getBio());
+        return Objects.hash(getCharacterId(), getCharacterName(), getCharacterClass(), getBio(), getUser());
     }
 
     @Override
@@ -85,7 +85,7 @@ public class Characters {
                 ", characterName='" + characterName + '\'' +
                 ", characterClass=" + characterClass +
                 ", characterBio='" + bio + '\'' +
-//                ", user=" + user +
+                ", user=" + user +
                 '}';
     }
 

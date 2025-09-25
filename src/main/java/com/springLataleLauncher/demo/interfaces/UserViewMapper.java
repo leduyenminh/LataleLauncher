@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserViewMapper {
 
-
     private ModelMapper modelMapper;
 
     public UserView toUserview(User user) {

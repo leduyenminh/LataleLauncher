@@ -22,8 +22,7 @@ public class User {
     @Column(name = "userinfo")
     private String userInfo;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "characterId", referencedColumnName = "characterId")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Character> characters ;
 
     public Long getUserId() {
@@ -94,7 +93,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserId(), getUsername(), getPassword(), getUserInfo());
+        return Objects.hash(getUserId(), getUsername(), getPassword(), getUserInfo(), getCharacters());
     }
 
 		@Override

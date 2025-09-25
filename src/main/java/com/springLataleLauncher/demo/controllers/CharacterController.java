@@ -1,10 +1,10 @@
 package com.springLataleLauncher.demo.controllers;
 
+import com.springLataleLauncher.demo.DAO.CharacterDAO;
 import com.springLataleLauncher.demo.entity.Characters;
 import com.springLataleLauncher.demo.interfaces.CharacterRequest;
-import com.springLataleLauncher.demo.service.CachingService;
-import com.springLataleLauncher.demo.DAO.CharacterServiceDAO;
-import com.springLataleLauncher.demo.service.CharacterService;
+import com.springLataleLauncher.demo.DTO.CachingService;
+import com.springLataleLauncher.demo.DTO.CharacterService;
 import com.springLataleLauncher.demo.vo.CharacterVO;
 import com.springLataleLauncher.demo.vo.Classes;
 
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/api/v1/characters")
 public class CharacterController {
 	@Autowired
-	private CharacterServiceDAO characterServiceDAO;
+	private CharacterDAO characterDAO;
 
 	@Autowired
 	private CachingService cachingService;
@@ -37,7 +37,7 @@ public class CharacterController {
 	// QUERY CREATION
 	@GetMapping
 	public ResponseEntity<List<Characters>> getAllCharacters() {
-		return ResponseEntity.ok(characterServiceDAO.getAllCharacters());
+		return ResponseEntity.ok(characterDAO.getAllCharacters());
 	}
 
 	// QUERY CREATION: CREATE NEW Character
@@ -49,39 +49,39 @@ public class CharacterController {
 		character.setBio(bio);
 		character.setCharacterName(characterName);
 		kafkaTemplate.send("characterTopic", character.getCharacterId());
-		return ResponseEntity.ok(characterServiceDAO.createNewCharacter(character));
+		return ResponseEntity.ok(characterDAO.createNewCharacter(character));
 	}
 
 	// QUERY CREATION: FIND BY ID
 	@GetMapping("/{id}")
 	public ResponseEntity<Characters> getCharacterById(@PathVariable long id) {
-		return ResponseEntity.ok(characterServiceDAO.findCharacterById(id));
+		return ResponseEntity.ok(characterDAO.findCharacterById(id));
 	}
 
 	// QUERY CREATION: FIND BY DESC
-	@GetMapping("/desc/{desc}")
-	public ResponseEntity<List<Characters>> findTaskByDescription(@PathVariable String desc) {
-		return ResponseEntity.ok(characterServiceDAO.findCharacterByClass(desc));
+	@GetMapping("/class/{charclass}")
+	public ResponseEntity<List<Characters>> findCharacterByClass(@PathVariable String charClass) {
+		return ResponseEntity.ok(characterDAO.findCharacterByClass(charClass));
 	}
 
 	@DeleteMapping("/{id}")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<Boolean> deleteCharacterById(@PathVariable long id) {
-		characterServiceDAO.deleteById(id);
+		characterDAO.deleteById(id);
 		return ResponseEntity.ok(true);
 	}
 
 	@PutMapping("/{id}/{bio}")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<Characters> updateCharacterStatus(@PathVariable long id, @PathVariable String bio) {
-		return ResponseEntity.ok(characterServiceDAO.updateCharacter(id, bio));
+		return ResponseEntity.ok(characterDAO.updateCharacter(id, bio));
 	}
 
 	// TRANSACTIONS EX 1
 	@GetMapping("/demo/transaction")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<Boolean> performMultipleOperations() {
-		characterServiceDAO.performMultipleOperations();
+		characterDAO.performMultipleOperations();
 		return ResponseEntity.ok(true);
 	}
 
@@ -91,7 +91,7 @@ public class CharacterController {
 	public ResponseEntity<Boolean> performOperationsRollback(@RequestParam String bio, @RequestParam String status) {
 		Characters character = new Characters();
 		character.setBio(bio);
-		characterServiceDAO.createTaskRollback(character);
+		characterDAO.createTaskRollback(character);
 		return ResponseEntity.ok(true);
 	}
 
@@ -105,13 +105,13 @@ public class CharacterController {
 	public Page<Characters> getAllCharactersOne(@RequestParam Integer page, @RequestParam Integer size) {
 		// Create a Pageable object with page number, page size, and sorting
 		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "todoItem"));
-		return characterServiceDAO.findAllWithPagingAndSorting(pageable);
+		return characterDAO.findAllWithPagingAndSorting(pageable);
 	}
 
 	@GetMapping("/all-page-two")
 	public List<Characters> getAllCharactersTwo(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sortBy, @RequestParam Sort.Direction direction) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
-		Page<Characters> todoPage = characterServiceDAO.findAllWithPagingAndSorting(pageable);
+		Page<Characters> todoPage = characterDAO.findAllWithPagingAndSorting(pageable);
 		return todoPage.getContent();
 	}
 
@@ -119,13 +119,13 @@ public class CharacterController {
 	// 1. NATIVE QUERY & PROJECTION
 	@GetMapping("/native-query-one")
 	public ResponseEntity<List<Characters>> getAllCharacterNativeOne() {
-		List<Characters> todos = characterServiceDAO.getAllCharactersNativeQuery();
+		List<Characters> todos = characterDAO.getAllCharactersNativeQuery();
 		return ResponseEntity.ok(todos);
 	}
 
 	@GetMapping("/native-query-two")
 	public ResponseEntity<List<Characters>> getAllCharacterNativeTwo(@RequestParam String classes) {
-		List<Characters> todos = characterServiceDAO.findCharacterByClass(classes);
+		List<Characters> todos = characterDAO.findCharacterByClass(classes);
 		return ResponseEntity.ok(todos);
 	}
 
@@ -133,7 +133,7 @@ public class CharacterController {
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<String> insertCharacter(@RequestBody Characters characterRequest) {
 		try {
-			characterServiceDAO.createNewCharacter(characterRequest);
+			characterDAO.createNewCharacter(characterRequest);
 			return ResponseEntity.ok("Characters item created successfully.");
 		} catch (Exception ex) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + ex.getMessage());
@@ -151,28 +151,28 @@ public class CharacterController {
 	@PostMapping("/bulk-create")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<String> bulkCreateCharacterItems(@RequestBody List<CharacterRequest> todoRequests) {
-		characterServiceDAO.bulkCreateCharacterItems(todoRequests);
+		characterDAO.bulkCreateCharacterItems(todoRequests);
 		return ResponseEntity.ok("Characters items created successfully.");
 	}
 
 	// CACHING
 	@GetMapping("/caching")
 	public ResponseEntity<List<Characters>> getAllCharacterCaching() {
-		List<Characters> todos = characterServiceDAO.getAllCharacters();
+		List<Characters> todos = characterDAO.getAllCharacters();
 		return ResponseEntity.ok(todos);
 	}
 
 	@DeleteMapping("/caching/{id}")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<String> deleteCharacterCaching(@PathVariable long id) {
-		characterServiceDAO.deleteById(id);
-		return ResponseEntity.ok("Delete task successfully.");
+		characterDAO.deleteById(id);
+		return ResponseEntity.ok("Delete character successfully.");
 	}
 
 	@PostMapping("/caching")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<Characters> deleteCharacterCaching(@RequestBody Characters character) {
-		Characters result = characterServiceDAO.updateCharacter(character.getCharacterId(), character.getBio());
+		Characters result = characterDAO.updateCharacter(character.getCharacterId(), character.getBio());
 		return ResponseEntity.ok(result);
 	}
 

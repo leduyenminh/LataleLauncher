@@ -3,7 +3,7 @@ package com.springLataleLauncher.demo.DAO.impl;
 import com.springLataleLauncher.demo.entity.User;
 import com.springLataleLauncher.demo.repository.UserRepository;
 
-import com.springLataleLauncher.demo.DAO.UserServiceDAO;
+import com.springLataleLauncher.demo.DAO.UserDAO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -21,12 +21,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceDAOImpl implements UserServiceDAO {
+public class UserDAOImpl implements UserDAO {
 
   private final UserRepository userRepository;
 	
   @Autowired
-  public UserServiceDAOImpl(UserRepository userRepository) {
+  public UserDAOImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

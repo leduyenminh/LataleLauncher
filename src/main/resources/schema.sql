@@ -4,7 +4,7 @@ CREATE TABLE `users` (
 	`username` varchar(255) COLLATE utf8_bin NOT NULL,
 	`password` varchar(255) COLLATE utf8_bin NOT NULL,
 	`userinfo` varchar(255) COLLATE utf8_bin,
-	PRIMARY KEY (`userId`)
+	PRIMARY KEY (`userId`),
 	UNIQUE KEY `UK_userName` (`username`)
 ) ROW_FORMAT=DYNAMIC ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -14,12 +14,16 @@ CREATE TABLE `characters` (
 	`characterName` varchar(255) COLLATE utf8_bin NOT NULL,
 	`characterClass` varchar(255) COLLATE utf8_bin NOT NULL,
 	`characterBio` varchar(255) COLLATE utf8_bin,
-	`userId` BIGINT DEFAULT NULL,
-	PRIMARY KEY (`characterId`)
+	`userId` BIGINT NOT NULL,
+	PRIMARY KEY (`characterId`),
 	UNIQUE KEY `UK_characterName` (`characterName`)
-    KEY FK_user_character (userId),
-    CONSTRAINT FK_user_character FOREIGN KEY (userId) REFERENCES users (userId)
+--    KEY FK_user_character (userId)
+--    CONSTRAINT FK_user_character
+--        FOREIGN KEY (userId) REFERENCES users (userId)
+--        ON DELETE CASCADE
+--        ON UPDATE CASCADE
 ) ROW_FORMAT=DYNAMIC ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- create index to improving querying character based on class
-CREATE INDEX IDX_CHARACTER ON characters(characterId);
+CREATE INDEX IDX_CHARACTER_CLASS ON characters(characterClass);
+

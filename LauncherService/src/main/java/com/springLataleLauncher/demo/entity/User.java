@@ -14,9 +14,11 @@ public class User {
     private Long userId;
 
     @Column(name = "username")
+    @NotNull
     private String username;
 
     @Column(name = "password")
+    @NotNull
     private String password;
 
     @Column(name = "userinfo")

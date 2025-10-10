@@ -10,12 +10,11 @@ public enum Classes {
     private String classes;
 
     Classes(String classes) {
-			this.classes = classes;
+		this.classes = classes;
     }
 
     public String getClasses(){
-			return classes;
-		}
-
+		return classes;
+	}
 
 }

@@ -12,6 +12,8 @@ public class UserVO {
 
     private String userInfo;
 
+    private List<CharacterVO> characterVOs;
+
     public Long getId() {
         return id;
     }
@@ -28,13 +30,13 @@ public class UserVO {
         this.password = password;
     }
 
-    // public List<Character> getCharacters() {
-    //     return characters;
-    // }
+    public List<CharacterVO> getCharacters() {
+        return characterVOs;
+    }
 
-    // public void setCharacters(List<Character> characters) {
-    //     this.characters = characters;
-    // }
+    public void setCharacters(List<CharacterVO> characterVOs) {
+        this.characterVOs = characterVOs;
+    }
 
     public String getUserInfo() {
         return userInfo;
@@ -43,20 +45,6 @@ public class UserVO {
     public void setUserInfo(String userInfo) {
         this.userInfo = userInfo;
     }
-
-    public List<String> getConnectedServers() {
-        return connectedServers;
-    }
-
-    public void setConnectedServers(List<String> connectedServers) {
-        this.connectedServers = connectedServers;
-    }
-
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "characterId", referencedColumnName = "characterId")
-    // private List<Character> characters ;
-
-    private List<String> connectedServers;
 
     public String getUsername(){
         return this.username;
@@ -70,12 +58,12 @@ public class UserVO {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         UserVO user = (UserVO) o;
-        return Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getUserInfo(), user.getUserInfo()) && Objects.equals(getConnectedServers(), user.getConnectedServers());
+        return Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getUserInfo(), user.getUserInfo()) && Objects.equals(getCharacters(), user.getCharacters());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getPassword(), getUserInfo(), getConnectedServers());
+        return Objects.hash(getId(), getUsername(), getPassword(), getUserInfo(), getCharacters());
     }
 
     @Override
@@ -85,7 +73,6 @@ public class UserVO {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", userInfo='" + userInfo + '\'' +
-                ", connectedServers=" + connectedServers +
                 '}';
     }
 }

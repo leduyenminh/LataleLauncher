@@ -55,15 +55,11 @@ public class CharacterDAOImpl implements CharacterDAO {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
     @Cacheable(value = "characters")
     public List<Characters> getAllCharacters() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Characters> cq = cb.createQuery(Characters.class);
-        Root<Characters> root = cq.from(Characters.class);
-        cq.select(root);
-        return em.createQuery(cq).getResultList();
+        List<Characters> characters = characterRepository.findAll();
     }
 
-		@Override
-		@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
     public Characters findCharacterById(Long id) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Characters> cq = cb.createQuery(Characters.class);
@@ -72,8 +68,8 @@ public class CharacterDAOImpl implements CharacterDAO {
         return em.createQuery(cq).getSingleResult();
     }
 
-		@Override
-		@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
     public List<Characters> findCharacterByClass(String charClass) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Characters> cq = cb.createQuery(Characters.class);
@@ -83,61 +79,29 @@ public class CharacterDAOImpl implements CharacterDAO {
     }
 
 
-		@Override
-		@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
     public Characters updateCharacter(Long id, String newBio) {
         Characters characters = characterRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Character not found with id: " + id));
-
         characters.setBio(newBio);
-
         return characterRepository.save(characters);
     }
 
-    /**
-     * Example transaction
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
-    public void performMultipleOperations() {
-        // Perform multiple database operations within a transaction
-        Characters char1 = new Characters();
-        Characters char2 = new Characters();
-
-        // Save characters to db
-        characterRepository.save(char1);
-        characterRepository.save(char2);
-
-        // Update character bio status
-        char1.setBio("this character is for testing, he is a warrior");
-        characterRepository.save(char1);
-
-        // Delete character
-        characterRepository.delete(char2);
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
-    public void createTaskRollback(Characters characters) {
-        try {
-            // Thực hiện thao tác lưu người dùng vào cơ sở dữ liệu
-            characterRepository.save(characters);
-
-            // Ném một ngoại lệ để tạo ra một tình huống lỗi
-            throw new RuntimeException("Error occurred");
-
-        } catch (Exception e) {
-            // Xảy ra lỗi, giao dịch sẽ được rollback
-            throw new RuntimeException("Failed to create task: " + e.getMessage());
-        }
-    }
-
+    @Override
     public Page<Characters> findAllWithPagingAndSorting(Pageable pageable) {
         return characterRepository.findAllWithPagingAndSorting(pageable);
     }
 
     @Override
-		@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
     public List<Characters> getAllCharactersNativeQuery() {
-        return List.of();
+        return characterRepository.findAllCharacters();
+    }
+
+    @Override
+    public boolean existByName(String characterName) {
+        return characterRepository.existByName(characterName);
     }
 
 
@@ -154,20 +118,13 @@ public class CharacterDAOImpl implements CharacterDAO {
      * Bulk create
      */
     @Override
-		@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
     public void bulkCreateCharacterItems(List<CharacterRequest> characterRequests) {
         List<Characters> charactersList = characterRequests.stream()
                 .map(this::mapToCharacters)
                 .collect(Collectors.toList());
         characterRepository.saveAll(charactersList);
     }
-
-    private Characters mapToCharacters(CharacterRequest characterRequest) {
-        Characters characters = new Characters();
-        characters.setBio(characterRequest.getBio());
-        return characters;
-    }
-
 
     /**
      * The method returns the tasks,
@@ -181,13 +138,20 @@ public class CharacterDAOImpl implements CharacterDAO {
         characterRepository.deleteById(id);
     }
 
-    private List<Characters> fetchAllTodosFromRepository() {
-        return (List<Characters>) characterRepository.findAll();
-    }
 
     @Override
     public Characters updateCharacterException(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateCharacter'");
+    }
+
+    private List<Characters> fetchAllTodosFromRepository() {
+        return (List<Characters>) characterRepository.findAll();
+    }
+
+    private Characters mapToCharacters(CharacterRequest characterRequest) {
+        Characters characters = new Characters();
+        characters.setBio(characterRequest.getBio());
+        return characters;
     }
 }

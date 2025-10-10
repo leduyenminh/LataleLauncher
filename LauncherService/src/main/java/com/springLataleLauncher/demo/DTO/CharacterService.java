@@ -1,9 +1,15 @@
 package com.springLataleLauncher.demo.DTO;
 
+import com.springLataleLauncher.demo.interfaces.CharacterRequest;
+import com.springLataleLauncher.demo.interfaces.CharacterResponse;
 import com.springLataleLauncher.demo.vo.CharacterVO;
 
 import java.util.List;
 
 public interface CharacterService {
-    List<CharacterVO> getAllCharactersByClass(String characterClass);
+    List<CharacterResponse> getAllCharacters();
+    List<CharacterResponse> getAllCharactersByClass(String characterClass);
+    CharacterResponse createCharacter(CharacterRequest characterRequest);
+    CharacterResponse updateCharacter(Long id, CharacterRequest characterRequest);
+    void deleteCharacter(Long id);
 }

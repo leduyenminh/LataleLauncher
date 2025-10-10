@@ -25,4 +25,6 @@ public interface CharacterRepository extends JpaRepository<Characters, Long> {
     @Query(value = "INSERT INTO characters (characterClass, characterName, bio, createdAt) VALUES (:characterClass, :characterName, :bio, :createdAt)", nativeQuery = true)
     void insertCharacter(@Param("characterClass") String characterClass, @Param("characterName") String characterName, @Param("bio") String bio, @Param("createdAt") LocalDateTime createdAt);
 
+    boolean existByName(String characterName);
+
 }

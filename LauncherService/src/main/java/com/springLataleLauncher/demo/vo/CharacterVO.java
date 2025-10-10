@@ -16,11 +16,13 @@ public class CharacterVO {
 
     private String bio;
 
+    private UserVO user;
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         CharacterVO that = (CharacterVO) o;
-        return Objects.equals(getCharacterId(), that.getCharacterId()) && Objects.equals(getCharacterName(), that.getCharacterName()) && getCharacterClass() == that.getCharacterClass() && Objects.equals(getBio(), that.getBio());
+        return Objects.equals(getCharacterId(), that.getCharacterId()) && Objects.equals(getCharacterName(), that.getCharacterName()) && getCharacterClass() == that.getCharacterClass() && Objects.equals(getBio(), that.getBio()) && Objects.equals(getUser(), that.getUser()) ;
     }
 
     @Override
@@ -58,6 +60,14 @@ public class CharacterVO {
 
     public void setCharacterName(String characterName) {
         this.characterName = characterName;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(UserVO user) {
+        this.user = user;
     }
 
     @Override

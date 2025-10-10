@@ -4,18 +4,12 @@ import com.springLataleLauncher.demo.vo.Classes;
 
 import java.time.LocalDateTime;
 
-public class CharacterRequest {
+public class CharacterResponse{
 
-    @NotBlank(message = "Name is required")
+    private String id;
     private String characterName;
-
     private String bio;
-
-    @NotBlank(message = "Class is required")
-    private Classes characterClass;
-
-    @NotBlank(message = "Username is required")
-    private String username;
+    private String characterClass;
 
     public String getBio() {
         return bio;
@@ -40,14 +34,4 @@ public class CharacterRequest {
     public void setCharacterName(String characterName) {
         this.characterName = characterName;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-// Getters and setters
 }

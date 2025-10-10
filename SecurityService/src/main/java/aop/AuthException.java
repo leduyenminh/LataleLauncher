@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice(assignableTypes = {AuthApi.class})
+@ControllerAdvice(assignableTypes = {AuthController.class})
 public class AuthException extends RuntimeException {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception ex) {

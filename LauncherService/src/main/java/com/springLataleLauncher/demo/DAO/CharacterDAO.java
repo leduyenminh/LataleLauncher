@@ -13,6 +13,7 @@ public interface CharacterDAO {
     public Characters createNewCharacter(Characters characters);
     public List<Characters> getAllCharacters();
     public Characters findCharacterById(Long id);
+    public boolean existByName(String charName);
     public List<Characters> findCharacterByClass(String charClass);
     public Characters updateCharacter(Long id, String newBio);
     public Characters updateCharacterException(Long id);
@@ -21,7 +22,5 @@ public interface CharacterDAO {
     // public void insertCharacter(CharacterRequest todoRequest);
 
     public void deleteById(Long id);
-    public void performMultipleOperations();
-    public void createTaskRollback(Characters task);
     public void bulkCreateCharacterItems(List<CharacterRequest> characterRequests);
 }

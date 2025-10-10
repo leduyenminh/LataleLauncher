@@ -14,16 +14,18 @@ public class Characters {
     private Long characterId;
 
     @Column(name = "character_name")
+    @NotNull
     private String characterName;
 
     @Column(name = "character_class")
+    @NotNull
     private Classes characterClass;
 
     @Column(name = "character_bio")
     private String bio;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_user_character", nullable = false, referencedColumnName = "user_id")
+    @JoinColumn(name = "fk_user_character", nullable = false, referencedColumnName = "username")
     private User user;
 
     public String getBio() {

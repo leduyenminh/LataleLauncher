@@ -3,10 +3,13 @@ package com.springLataleLauncher.demo.controllers;
 import com.springLataleLauncher.demo.DAO.CharacterDAO;
 import com.springLataleLauncher.demo.entity.Characters;
 import com.springLataleLauncher.demo.interfaces.CharacterRequest;
+import com.springLataleLauncher.demo.interfaces.CharacterResponse;
 import com.springLataleLauncher.demo.DTO.CachingService;
 import com.springLataleLauncher.demo.DTO.CharacterService;
 import com.springLataleLauncher.demo.vo.CharacterVO;
 import com.springLataleLauncher.demo.vo.Classes;
+
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,64 +39,39 @@ public class CharacterController {
 
 	// QUERY CREATION
 	@GetMapping
-	public ResponseEntity<List<Characters>> getAllCharacters() {
-		return ResponseEntity.ok(characterDAO.getAllCharacters());
+	public ResponseEntity<List<CharacterResponse>> getAllCharacters() {
+		List<CharacterResponse> characterResponses = characterService.getAllCharacters();
+		return ResponseEntity.ok().body(characterResponses);
 	}
 
 	// QUERY CREATION: CREATE NEW Character
 	@PostMapping
 //	@RolesAllowed(Role.USER_ADMIN)
-	public ResponseEntity<Characters> addCharacter(@RequestParam Classes classes, @RequestParam String bio, @RequestBody String characterName) {
-		Characters character = new Characters();
-		character.setCharacterClass(classes);
-		character.setBio(bio);
-		character.setCharacterName(characterName);
-		kafkaTemplate.send("characterTopic", character.getCharacterId());
-		return ResponseEntity.ok(characterDAO.createNewCharacter(character));
-	}
-
-	// QUERY CREATION: FIND BY ID
-	@GetMapping("/{id}")
-	public ResponseEntity<Characters> getCharacterById(@PathVariable long id) {
-		return ResponseEntity.ok(characterDAO.findCharacterById(id));
+	public ResponseEntity<CharacterResponse> addCharacter(@Valid @RequestBody CharacterRequest characterRequest) {
+		CharacterResponse characterResponse = characterService.createCharacter(characterRequest);
+		return ResponseEntity.ok().body(characterResponse);
 	}
 
 	// QUERY CREATION: FIND BY DESC
 	@GetMapping("/class/{charclass}")
-	public ResponseEntity<List<Characters>> findCharacterByClass(@PathVariable String charClass) {
-		return ResponseEntity.ok(characterDAO.findCharacterByClass(charClass));
+	public ResponseEntity<List<CharacterResponse>> findCharacterByClass(@PathVariable String charClass) {
+		List<CharacterResponse> characterResponse = characterService.getAllCharactersByClass(charClass);
+		return ResponseEntity.ok().body(characterResponse);
 	}
 
 	@DeleteMapping("/{id}")
 //	@RolesAllowed(Role.USER_ADMIN)
-	public ResponseEntity<Boolean> deleteCharacterById(@PathVariable long id) {
-		characterDAO.deleteById(id);
+	public ResponseEntity<Boolean> deleteCharacterById(@PathVariable Long id) {
+		characterService.deleteCharacter(id);
 		return ResponseEntity.ok(true);
 	}
 
 	@PutMapping("/{id}/{bio}")
 //	@RolesAllowed(Role.USER_ADMIN)
-	public ResponseEntity<Characters> updateCharacterStatus(@PathVariable long id, @PathVariable String bio) {
+	public ResponseEntity<Characters> updateCharacterStatus(@PathVariable Long id, @PathVariable String bio) {
 		return ResponseEntity.ok(characterDAO.updateCharacter(id, bio));
 	}
 
-	// TRANSACTIONS EX 1
-	@GetMapping("/demo/transaction")
-//	@RolesAllowed(Role.USER_ADMIN)
-	public ResponseEntity<Boolean> performMultipleOperations() {
-		characterDAO.performMultipleOperations();
-		return ResponseEntity.ok(true);
-	}
-
-	// TRANSACTIONS EX 2
-	@PostMapping("/demo/transaction-rollback")
-//	@RolesAllowed(Role.USER_ADMIN)
-	public ResponseEntity<Boolean> performOperationsRollback(@RequestParam String bio, @RequestParam String status) {
-		Characters character = new Characters();
-		character.setBio(bio);
-		characterDAO.createTaskRollback(character);
-		return ResponseEntity.ok(true);
-	}
 
 	// PAGING & SORTING EX 1
 	// @GetMapping("/all")
@@ -140,13 +118,6 @@ public class CharacterController {
 		}
 	}
 
-	// 2. PROJECTION
-	@GetMapping("/projection")
-	public ResponseEntity<List<CharacterVO>> getAllCharacterItemsProjection() {
-		List<CharacterVO> character = characterService.getAllCharactersByClass("warrior");
-		return ResponseEntity.ok(character);
-	}
-
 	// BULK CREATE
 	@PostMapping("/bulk-create")
 //	@RolesAllowed(Role.USER_ADMIN)
@@ -164,7 +135,7 @@ public class CharacterController {
 
 	@DeleteMapping("/caching/{id}")
 //	@RolesAllowed(Role.USER_ADMIN)
-	public ResponseEntity<String> deleteCharacterCaching(@PathVariable long id) {
+	public ResponseEntity<String> deleteCharacterCaching(@PathVariable Long id) {
 		characterDAO.deleteById(id);
 		return ResponseEntity.ok("Delete character successfully.");
 	}

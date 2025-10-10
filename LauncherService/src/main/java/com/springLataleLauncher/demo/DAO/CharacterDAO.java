@@ -1,6 +1,7 @@
 package com.springLataleLauncher.demo.DAO;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.springLataleLauncher.demo.entity.Characters;
 import com.springLataleLauncher.demo.interfaces.CharacterRequest;
@@ -12,7 +13,7 @@ public interface CharacterDAO {
 
     public Characters createNewCharacter(Characters characters);
     public List<Characters> getAllCharacters();
-    public Characters findCharacterById(Long id);
+    public Optional<Characters> findCharacterById(Long id);
     public boolean existByName(String charName);
     public List<Characters> findCharacterByClass(String charClass);
     public Characters updateCharacter(Long id, String newBio);

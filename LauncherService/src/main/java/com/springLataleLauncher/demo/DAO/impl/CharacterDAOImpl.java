@@ -22,6 +22,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,16 +57,17 @@ public class CharacterDAOImpl implements CharacterDAO {
     @Cacheable(value = "characters")
     public List<Characters> getAllCharacters() {
         List<Characters> characters = characterRepository.findAll();
+        return characters;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
-    public Characters findCharacterById(Long id) {
+    public Optional<Characters> findCharacterById(Long id) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Characters> cq = cb.createQuery(Characters.class);
         Root<Characters> root = cq.from(Characters.class);
         cq.select(root).where(cb.equal(root.get("id"), id));
-        return em.createQuery(cq).getSingleResult();
+        return Optional.ofNullable(em.createQuery(cq).getSingleResult());
     }
 
     @Override

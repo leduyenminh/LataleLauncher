@@ -23,14 +23,14 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     public List<CharacterResponse> getAllCharacters(){
         List<Characters> characters = characterDAO.getAllCharacters();
-        List<CharacterResponse> characterVOS = characters.stream().map(c -> toCharacterResponse(characters)).toList();
-        return characterVOs;
+        List<CharacterResponse> characterResponses = characters.stream().map(c -> toCharacterResponse(c)).toList();
+        return characterResponses;
     }
 
     @Override
     public List<CharacterResponse> getAllCharactersByClass(String characterClass){
         List<Characters> characters = characterDAO.findCharacterByClass(characterClass);
-        List<CharacterResponse> characterResponses = characters.stream().map(c -> toCharacterResponse(characters)).toList();
+        List<CharacterResponse> characterResponses = characters.stream().map(c -> toCharacterResponse(c)).toList();
         return characterResponses;
     }
 

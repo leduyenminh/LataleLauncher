@@ -62,7 +62,7 @@ public class CharacterVO {
         this.characterName = characterName;
     }
 
-    public String getUser() {
+    public UserVO getUser() {
         return user;
     }
 

@@ -3,16 +3,12 @@ package com.springLataleLauncher.demo.DTO.impl;
 import com.springLataleLauncher.demo.DAO.CharacterDAO;
 import com.springLataleLauncher.demo.DTO.CharacterService;
 import com.springLataleLauncher.demo.aop.exception.CharacterValidationException;
-import com.springLataleLauncher.demo.aop.exception.CharactersException;
 import com.springLataleLauncher.demo.entity.Characters;
 import com.springLataleLauncher.demo.interfaces.CharacterRequest;
 import com.springLataleLauncher.demo.interfaces.CharacterResponse;
-import com.springLataleLauncher.demo.vo.CharacterVO;
-import com.springLataleLauncher.demo.vo.Classes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

@@ -9,6 +9,8 @@ import com.springLataleLauncher.demo.DTO.CharacterService;
 import com.springLataleLauncher.demo.vo.CharacterVO;
 import com.springLataleLauncher.demo.vo.Classes;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +20,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
+//import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/characters")
+@Tag(name = "Characters", description = "API for Characters by each user")
 public class CharacterController {
 	@Autowired
 	private CharacterDAO characterDAO;
@@ -35,10 +38,11 @@ public class CharacterController {
 	@Autowired
 	private CharacterService characterService;
 
-	private KafkaTemplate<String, Long> kafkaTemplate;
+//	private KafkaTemplate<String, Long> kafkaTemplate;
 
 	// QUERY CREATION
 	@GetMapping
+	@Operation(summary = "Get Characters")
 	public ResponseEntity<List<CharacterResponse>> getAllCharacters() {
 		List<CharacterResponse> characterResponses = characterService.getAllCharacters();
 		return ResponseEntity.ok().body(characterResponses);
@@ -46,6 +50,7 @@ public class CharacterController {
 
 	// QUERY CREATION: CREATE NEW Character
 	@PostMapping
+	@Operation(summary = "Create Character")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<CharacterResponse> addCharacter(@Valid @RequestBody CharacterRequest characterRequest) {
 		CharacterResponse characterResponse = characterService.createCharacter(characterRequest);
@@ -54,19 +59,22 @@ public class CharacterController {
 
 	// QUERY CREATION: FIND BY DESC
 	@GetMapping("/class/{charclass}")
+	@Operation(summary = "Get Characters By Class")
 	public ResponseEntity<List<CharacterResponse>> findCharacterByClass(@PathVariable String charClass) {
 		List<CharacterResponse> characterResponse = characterService.getAllCharactersByClass(charClass);
 		return ResponseEntity.ok().body(characterResponse);
 	}
 
 	@DeleteMapping("/{id}")
+	@Operation(summary = "Get Character By Id")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<Boolean> deleteCharacterById(@PathVariable Long id) {
 		characterService.deleteCharacter(id);
-		return ResponseEntity.ok(true);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping("/{id}/{bio}")
+	@Operation(summary = "Update Character Bio")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<Characters> updateCharacterStatus(@PathVariable Long id, @PathVariable String bio) {
 		return ResponseEntity.ok(characterDAO.updateCharacter(id, bio));
@@ -79,14 +87,16 @@ public class CharacterController {
 	// 	return characterService.getAllCharacters(pageable);
 	// }
 
-	@GetMapping("/all-page-one")
+	@GetMapping("/paging")
+	@Operation(summary = "Get Characters with Pagination")
 	public Page<Characters> getAllCharactersOne(@RequestParam Integer page, @RequestParam Integer size) {
 		// Create a Pageable object with page number, page size, and sorting
-		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "todoItem"));
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,""));
 		return characterDAO.findAllWithPagingAndSorting(pageable);
 	}
 
-	@GetMapping("/all-page-two")
+	@GetMapping("/paging-two")
+	@Operation(summary = "Get Characters with Pagination")
 	public List<Characters> getAllCharactersTwo(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sortBy, @RequestParam Sort.Direction direction) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 		Page<Characters> todoPage = characterDAO.findAllWithPagingAndSorting(pageable);
@@ -96,44 +106,23 @@ public class CharacterController {
 	// NATIVE QUERY & PROJECTION
 	// 1. NATIVE QUERY & PROJECTION
 	@GetMapping("/native-query-one")
+	@Operation(summary = "Get Characters with query")
 	public ResponseEntity<List<Characters>> getAllCharacterNativeOne() {
 		List<Characters> todos = characterDAO.getAllCharactersNativeQuery();
 		return ResponseEntity.ok(todos);
 	}
 
-	@GetMapping("/native-query-two")
-	public ResponseEntity<List<Characters>> getAllCharacterNativeTwo(@RequestParam String classes) {
-		List<Characters> todos = characterDAO.findCharacterByClass(classes);
-		return ResponseEntity.ok(todos);
-	}
-
-	@PostMapping("/native-query-three")
-//	@RolesAllowed(Role.USER_ADMIN)
-	public ResponseEntity<String> insertCharacter(@RequestBody Characters characterRequest) {
-		try {
-			characterDAO.createNewCharacter(characterRequest);
-			return ResponseEntity.ok("Characters item created successfully.");
-		} catch (Exception ex) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + ex.getMessage());
-		}
-	}
-
 	// BULK CREATE
 	@PostMapping("/bulk-create")
+	@Operation(summary = "Get Characters")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<String> bulkCreateCharacterItems(@RequestBody List<CharacterRequest> todoRequests) {
 		characterDAO.bulkCreateCharacterItems(todoRequests);
 		return ResponseEntity.ok("Characters items created successfully.");
 	}
 
-	// CACHING
-	@GetMapping("/caching")
-	public ResponseEntity<List<Characters>> getAllCharacterCaching() {
-		List<Characters> todos = characterDAO.getAllCharacters();
-		return ResponseEntity.ok(todos);
-	}
-
 	@DeleteMapping("/caching/{id}")
+	@Operation(summary = "Delete Character")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public ResponseEntity<String> deleteCharacterCaching(@PathVariable Long id) {
 		characterDAO.deleteById(id);
@@ -141,13 +130,15 @@ public class CharacterController {
 	}
 
 	@PostMapping("/caching")
+	@Operation(summary = "Update character")
 //	@RolesAllowed(Role.USER_ADMIN)
-	public ResponseEntity<Characters> deleteCharacterCaching(@RequestBody Characters character) {
+	public ResponseEntity<Characters> updateCharacterCaching(@RequestBody Characters character) {
 		Characters result = characterDAO.updateCharacter(character.getCharacterId(), character.getBio());
 		return ResponseEntity.ok(result);
 	}
 
 	@GetMapping("/clearAllCaches")
+	@Operation(summary = "Clear all cache")
 //	@RolesAllowed(Role.USER_ADMIN)
 	public void clearAllCaches() {
 		cachingService.evictAllCaches();

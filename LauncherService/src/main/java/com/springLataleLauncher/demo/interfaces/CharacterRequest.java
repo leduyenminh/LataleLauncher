@@ -1,6 +1,7 @@
 package com.springLataleLauncher.demo.interfaces;
 
 import com.springLataleLauncher.demo.vo.Classes;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 

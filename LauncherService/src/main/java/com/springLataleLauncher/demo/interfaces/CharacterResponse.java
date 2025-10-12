@@ -9,7 +9,7 @@ public class CharacterResponse{
     private String id;
     private String characterName;
     private String bio;
-    private String characterClass;
+    private Classes characterClass;
 
     public String getBio() {
         return bio;

@@ -9,12 +9,16 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import com.springLataleLauncher.demo.controllers.CharacterController;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 @ControllerAdvice(assignableTypes = {CharacterController.class})
 public class CharactersException extends RuntimeException {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex) {
         // Handle general exceptions and return an appropriate error response
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred : " + ex.getMessage() + "with Character Controller");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An exception occurred with Character Controller: " + ex.getMessage());
     }
 }

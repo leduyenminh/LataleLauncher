@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -22,9 +21,9 @@ public interface CharacterRepository extends JpaRepository<Characters, Long> {
     List<Characters> findAllCharacters();
 
     @Modifying
-    @Query(value = "INSERT INTO characters (characterClass, characterName, bio, createdAt) VALUES (:characterClass, :characterName, :bio, :createdAt)", nativeQuery = true)
-    void insertCharacter(@Param("characterClass") String characterClass, @Param("characterName") String characterName, @Param("bio") String bio, @Param("createdAt") LocalDateTime createdAt);
+    @Query(value = "INSERT INTO characters (characterClass, characterName, bio, createdAt) VALUES (:characterClass, :characterName, :bio)", nativeQuery = true)
+    void insertCharacter(@Param("characterClass") String characterClass, @Param("characterName") String characterName, @Param("bio") String bio);
 
-    boolean existByName(String characterName);
+    boolean existsByCharacterName(String characterName);
 
 }

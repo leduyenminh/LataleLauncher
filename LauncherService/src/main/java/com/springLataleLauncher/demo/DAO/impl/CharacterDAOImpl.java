@@ -103,7 +103,7 @@ public class CharacterDAOImpl implements CharacterDAO {
 
     @Override
     public boolean existByName(String characterName) {
-        return characterRepository.existByName(characterName);
+        return characterRepository.existsByCharacterName(characterName);
     }
 
 
@@ -111,9 +111,7 @@ public class CharacterDAOImpl implements CharacterDAO {
     public void insertCharacter(CharacterRequest characterRequest) {
         characterRepository.insertCharacter(characterRequest.getCharacterClass().toString(),
                 characterRequest.getCharacterName(),
-                characterRequest.getBio(),
-                //should get current datetime
-                characterRequest.getCreatedAt());
+                characterRequest.getBio());
     }
 
     /**

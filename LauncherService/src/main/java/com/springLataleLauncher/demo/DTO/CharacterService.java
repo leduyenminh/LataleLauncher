@@ -2,7 +2,6 @@ package com.springLataleLauncher.demo.DTO;
 
 import com.springLataleLauncher.demo.interfaces.CharacterRequest;
 import com.springLataleLauncher.demo.interfaces.CharacterResponse;
-import com.springLataleLauncher.demo.vo.CharacterVO;
 
 import java.util.List;
 

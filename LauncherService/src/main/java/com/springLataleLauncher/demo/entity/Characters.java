@@ -3,6 +3,8 @@ package com.springLataleLauncher.demo.entity;
 import com.springLataleLauncher.demo.vo.Classes;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Objects;
 
 @Entity

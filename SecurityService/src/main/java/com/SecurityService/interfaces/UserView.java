@@ -1,4 +1,4 @@
-package interfaces;
+package com.SecurityService.interfaces;
 
 import com.springLataleLauncher.demo.entity.User;
 import org.springframework.security.core.GrantedAuthority;

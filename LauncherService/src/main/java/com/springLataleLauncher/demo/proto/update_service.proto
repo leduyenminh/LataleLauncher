@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "security";
+option java_outer_classname = "SecurityServiceOuterClass";
+
+service UpdateService {
+    rpc ExecuteUpdatingRequest (UpdateRequest) returns (UpdateResponse);
+}
+
+message UpdateRequest {
+    string deviceId = 1;
+    string gameVersion = 2;
+}
+
+message UpdateResponse {
+    string deviceId = 1;
+    string status = 2;
+}

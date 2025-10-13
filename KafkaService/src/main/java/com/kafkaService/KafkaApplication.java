@@ -6,13 +6,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-@EnableJpaRepositories("com.springLataleLauncher.demo.repository")
-@EntityScan("com.springLataleLauncher.demo.entity")
 @EnableCaching
 @EnableAsync
 public class KafkaApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(LauncherApplication.class, args);
+		SpringApplication.run(KafkaApplication.class, args);
 	}
 
 }

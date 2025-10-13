@@ -1,4 +1,4 @@
-package interfaces;
+package com.SecurityService.interfaces;
 
 public class AuthRequest {
     private String username;

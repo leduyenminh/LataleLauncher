@@ -1,4 +1,4 @@
-package com.springLataleLauncher.demo.aop.exception;
+package com.SecurityService.aop;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

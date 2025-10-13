@@ -1,7 +1,7 @@
-package interfaces;
+package com.SecurityService.interfaces;
 
 import com.springLataleLauncher.demo.entity.User;
-import com.springLataleLauncher.demo.interfaces.UserView;
+// import com.SecurityService.interfaces.UserView;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

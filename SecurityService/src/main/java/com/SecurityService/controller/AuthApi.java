@@ -1,10 +1,10 @@
-package controller;
+package com.SecurityService.controller;
 
 import com.springLataleLauncher.demo.entity.User;
-import com.springLataleLauncher.demo.interfaces.AuthRequest;
-import com.springLataleLauncher.demo.interfaces.UserView;
-import com.springLataleLauncher.demo.interfaces.UserViewMapper;
-import com.springLataleLauncher.demo.utils.JwtTokenUtil;
+import com.SecurityService.interfaces.AuthRequest;
+import com.SecurityService.interfaces.UserView;
+import com.SecurityService.interfaces.UserViewMapper;
+import com.SecurityService.utils.JwtTokenUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

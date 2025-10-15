@@ -1,4 +1,4 @@
-package ProducerConfig;
+package com.kafkaService.ProducerConfig;
 
 import com.fasterxml.jackson.databind.ser.std.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

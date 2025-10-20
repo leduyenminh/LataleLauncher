@@ -8,7 +8,8 @@
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
 	`user_id` BIGINT NOT NULL AUTO_INCREMENT,
-	`username` varchar(255) COLLATE utf8_bin NOT NULL,
+	`username` varchar(255) COLLATE utf8_bin UNIQUE NOT NULL,
+	`email` varchar(255) COLLATE utf8_bin UNIQUE NOT NULL,
 	`password` varchar(255) COLLATE utf8_bin NOT NULL,
 	`userinfo` varchar(255) COLLATE utf8_bin,
 	PRIMARY KEY (`user_id`),
@@ -18,7 +19,7 @@ CREATE TABLE `users` (
 DROP TABLE IF EXISTS `characters`;
 CREATE TABLE `characters` (
 	`character_id` BIGINT NOT NULL AUTO_INCREMENT,
-	`character_name` varchar(255) COLLATE utf8_bin NOT NULL,
+	`character_name` varchar(255) COLLATE utf8_bin UNIQUE NOT NULL,
 	`character_class` varchar(255) COLLATE utf8_bin NOT NULL,
 	`character_bio` varchar(255) COLLATE utf8_bin,
 	`fk_user_character` BIGINT NOT NULL,

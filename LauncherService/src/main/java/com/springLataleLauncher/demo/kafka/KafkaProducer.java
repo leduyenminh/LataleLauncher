@@ -1,12 +1,14 @@
 package com.springLataleLauncher.demo.kafka;
 
 import com.springLataleLauncher.demo.entity.Characters;
+import com.springLataleLauncher.demo.entity.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import patient.events.PatientEvent;
+import launcher.events.UserEvent;
+import launcher.events.CharacterEvent;
 
 @Service
 public class KafkaProducer {
@@ -19,18 +21,30 @@ public class KafkaProducer {
     this.kafkaTemplate = kafkaTemplate;
   }
 
-  public void sendEvent(Characters character) {
-    PatientEvent event = PatientEvent.newBuilder()
-        .setPatientId(patient.getId().toString())
-        .setName(patient.getName())
-        .setEmail(patient.getEmail())
-        .setEventType("PATIENT_CREATED")
+  public void sendUserEvent(User user) {
+    UserEvent userEvent = UserEvent.newBuilder()
+        .setEmail(user.getEmail().toString())
+        .setName(user.getUsername())
+        .setEventType("USER_CREATED")
         .build();
 
     try {
-      kafkaTemplate.send("patient", event.toByteArray());
+      kafkaTemplate.send("user.events", userEvent.toByteArray());
     } catch (Exception e) {
-      log.error("Error sending PatientCreated event: {}", event);
+      log.error("Error sending UserCreated event: {}", userEvent);
+    }
+  }
+
+    public void sendCharacterEvent(Characters character) {
+    CharacterEvent characterEvent = CharacterEvent.newBuilder()
+        .setName(character.getCharacterName())
+        .setEventType("CHARACTER_CREATED")
+        .build();
+
+    try {
+      kafkaTemplate.send("character.events", characterEvent.toByteArray());
+    } catch (Exception e) {
+      log.error("Error sending CharacterCreated event: {}", characterEvent);
     }
   }
 }

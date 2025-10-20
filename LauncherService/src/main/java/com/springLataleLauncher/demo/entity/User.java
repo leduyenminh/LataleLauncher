@@ -1,6 +1,7 @@
 package com.springLataleLauncher.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
@@ -14,9 +15,13 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     @NotNull
     private String username;
+
+    @Email
+    @Column(name = "email", unique = true)
+    private String email;
 
     @Column(name = "password")
     @NotNull
@@ -86,17 +91,23 @@ public class User {
       this.username= userName;
     }
 
+    public String getEmail(){
+      return this.email;
+    }
+    public void setEmail(String email){
+      this.email = email;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(getUserId(), user.getUserId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getUserInfo(), user.getUserInfo());
+        return Objects.equals(getUserId(), user.getUserId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getUserInfo(), user.getUserInfo());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserId(), getUsername(), getPassword(), getUserInfo(), getCharacters());
+        return Objects.hash(getUserId(), getUsername(), getEmail(), getPassword(), getUserInfo(), getCharacters());
     }
 
 		@Override
@@ -104,6 +115,7 @@ public class User {
         return "User{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", userInfo='" + userInfo + '\'' +
 //                ", connectedServers=" + connectedServers +

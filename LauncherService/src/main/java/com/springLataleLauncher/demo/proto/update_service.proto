@@ -9,11 +9,9 @@ service UpdateService {
 }
 
 message UpdateRequest {
-    string deviceId = 1;
-    string gameVersion = 2;
+    string currentVersion = 1;
 }
 
 message UpdateResponse {
-    string deviceId = 1;
-    string status = 2;
+    string latestVersion = 1;
 }

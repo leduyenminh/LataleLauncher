@@ -1,11 +1,18 @@
 syntax = "proto3";
 
-package patient.events;
+package launcher.events;
+
 option java_multiple_files = true;
 
-message LauncherEvent {
+message UserEvent {
   string userId = 1;
   string name = 2;
   string email = 3;
   string event_type = 4;
+}
+
+message CharacterEvent {
+  string characterId = 1;
+  string name = 2;
+  string event_type = 3;
 }

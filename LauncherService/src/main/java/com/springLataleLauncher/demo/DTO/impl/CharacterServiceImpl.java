@@ -6,6 +6,8 @@ import com.springLataleLauncher.demo.aop.exception.CharacterValidationException;
 import com.springLataleLauncher.demo.entity.Characters;
 import com.springLataleLauncher.demo.interfaces.CharacterRequest;
 import com.springLataleLauncher.demo.interfaces.CharacterResponse;
+import com.springLataleLauncher.demo.kafka.KafkaProducer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ import java.util.List;
 public class CharacterServiceImpl implements CharacterService {
     @Autowired
     private CharacterDAO characterDAO;
+
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
     @Override
     public List<CharacterResponse> getAllCharacters(){
@@ -35,6 +40,9 @@ public class CharacterServiceImpl implements CharacterService {
         Characters newCharacterRequest = toCharacterEntity(characterRequest);
         Characters newCharacter = characterDAO.createNewCharacter(newCharacterRequest);
         CharacterResponse characterVO = toCharacterResponse(newCharacter);
+
+        kafkaProducer.sendCharacterEvent(newCharacter);
+
         return characterVO;
     }
 

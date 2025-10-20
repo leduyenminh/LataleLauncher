@@ -15,7 +15,7 @@ public class Characters {
     @Column(name = "character_id")
     private Long characterId;
 
-    @Column(name = "character_name")
+    @Column(name = "character_name", unique = true)
     @NotNull
     private String characterName;
 

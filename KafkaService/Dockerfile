@@ -27,7 +27,8 @@ FROM openjdk:21-jdk AS runner
 WORKDIR /app
 
 # Set environment variables (can be overridden at runtime)
-ENV JAVA_OPTS="-Xms256m -Xmx512m" \
+ENV JAVA_OPTS="-XX:+UseZGC -Xms512m -Xmx1g -XX:MaxRAMPercentage=80.0 \
+  -Xlog:gc*:file=/var/log/myapp/gc-zgc.log:time,uptime,level:filecount=3,filesize=50M" \
     TZ=UTC
 
 # Copy JAR from builder stage

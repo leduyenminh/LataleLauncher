@@ -1,6 +1,8 @@
 package ProducerConfig;
 
-import com.fasterxml.jackson.databind.ser.std.StringSerializer;
+import org.apache.kafka.common.serialization.ByteArraySerializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+
 import com.springLataleLauncher.demo.kafka.CharacterEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,11 +20,11 @@ public class KafkaProducerConfig {
 	@Value("${spring.kafka.bootstrap-servers}")
 	private String bootstrapServers;
 
-	public Map<String, Object> producerConfig(){
+	public Map<String, byte[]> producerConfig(){
 		Map<String, Object > props = new HashMap<>();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,  StringSerializer.class);
+		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,  ByteArraySerializer.class);
 		return props;
 
 	}

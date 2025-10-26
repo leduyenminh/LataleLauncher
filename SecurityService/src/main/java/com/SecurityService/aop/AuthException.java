@@ -1,5 +1,6 @@
 package com.SecurityService.aop;
 
+import com.SecurityService.controller.AuthController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

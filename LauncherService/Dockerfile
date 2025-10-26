@@ -9,6 +9,7 @@ WORKDIR /app
 # Copy only pom.xml first (for dependency caching)
 COPY pom.xml .
 
+COPY settings.xml /root/.m2/settings.xml
 # Download dependencies (better caching)
 RUN mvn dependency:go-offline -B
 
@@ -27,11 +28,13 @@ FROM openjdk:21-jdk AS runner
 WORKDIR /app
 
 # Set environment variables (can be overridden at runtime)
-ENV JAVA_OPTS="-Xms256m -Xmx512m" \
+ENV JAVA_OPTS="java -XX:+UseZGC -Xms256m -Xmx1g -XX:MaxRAMPercentage=70.0 \
+                 -Xlog:gc*:file=/var/log/myapp/gc-zgc.log:time,uptime,level:filecount=3,filesize=50M \
+                 -jar app.jar " \
     TZ=UTC
 
 # Copy JAR from builder stage
-COPY --from=builder /app/target/springLataleLauncher-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/target/LauncherService-1.0-SNAPSHOT.jar app.jar
 
 # Expose application port
 EXPOSE 8080

@@ -5,13 +5,13 @@ option java_package = "security";
 option java_outer_classname = "SecurityServiceOuterClass";
 
 service UpdateService {
-    rpc ExecuteUpdatingRequest (UpdateRequest) returns (UpdateResponse);
+  rpc ExecuteUpdatingRequest (UpdateRequest) returns (UpdateResponse);
 }
 
 message UpdateRequest {
-    string currentVersion = 1;
+  int32 currentVersion = 1;
 }
 
 message UpdateResponse {
-    string latestVersion = 1;
+  int32 latestVersion = 2;
 }

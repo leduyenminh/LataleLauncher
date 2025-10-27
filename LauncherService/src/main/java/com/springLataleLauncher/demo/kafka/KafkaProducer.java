@@ -1,7 +1,7 @@
 package com.springLataleLauncher.demo.kafka;
 
+import com.SecurityService.entity.User;
 import com.springLataleLauncher.demo.entity.Characters;
-import com.springLataleLauncher.demo.entity.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

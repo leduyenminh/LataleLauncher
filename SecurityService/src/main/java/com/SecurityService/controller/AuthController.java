@@ -1,7 +1,7 @@
 package com.SecurityService.controller;
 
-import com.springLataleLauncher.demo.entity.User;
-import com.SecurityService.interfaces.AuthRequest;
+import com.SecurityService.DTO.AuthRequestDTO;
+import com.SecurityService.entity.User;
 import com.SecurityService.interfaces.UserView;
 import com.SecurityService.interfaces.UserViewMapper;
 import com.SecurityService.utils.JwtTokenUtil;
@@ -15,6 +15,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +39,7 @@ public class AuthController {
         }
 
     @PostMapping("/login")
-    public ResponseEntity<UserView> login(@Valid @RequestBody AuthRequest request) {
+    public ResponseEntity<UserView> login(@Valid @RequestBody AuthRequestDTO request) {
         try {
             Authentication authenticate = authenticationManager
                 .authenticate(

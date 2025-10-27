@@ -1,9 +1,8 @@
-package com.springLataleLauncher.demo.DAO.impl;
+package com.SecurityService.DAO.impl;
 
-import com.springLataleLauncher.demo.entity.User;
-import com.springLataleLauncher.demo.repository.UserRepository;
-
-import com.springLataleLauncher.demo.DAO.UserDAO;
+import com.SecurityService.entity.User;
+import com.SecurityService.repository.UserRepository;
+import com.SecurityService.DAO.UserDAO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

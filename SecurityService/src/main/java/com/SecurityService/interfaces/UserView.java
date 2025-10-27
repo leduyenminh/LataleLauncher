@@ -1,8 +1,9 @@
 package com.SecurityService.interfaces;
 
-import com.springLataleLauncher.demo.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.SecurityService.entity.User;
 
 import java.util.Collection;
 import java.util.List;

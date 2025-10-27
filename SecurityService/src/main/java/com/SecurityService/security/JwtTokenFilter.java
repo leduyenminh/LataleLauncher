@@ -1,10 +1,18 @@
-package security;
+package com.SecurityService.security;
 
-import com.springLataleLauncher.demo.DAO.UserDAO;
-import com.springLataleLauncher.demo.utils.JwtTokenUtil;
+import com.SecurityService.DAO.UserDAO;
+import com.SecurityService.utils.JwtTokenUtil;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
+// import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +27,7 @@ import java.util.Optional;
 
 import static org.aspectj.util.LangUtil.isEmpty;
 
-@Slf4j
+// @Slf4j
 @Component
 public class JwtTokenFilter implements Filter {
 

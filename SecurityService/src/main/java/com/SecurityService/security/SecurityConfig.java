@@ -1,7 +1,7 @@
-package security;
+package com.SecurityService.security;
 
 
-import com.springLataleLauncher.demo.DAO.UserDAO;
+import com.SecurityService.DAO.UserDAO;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

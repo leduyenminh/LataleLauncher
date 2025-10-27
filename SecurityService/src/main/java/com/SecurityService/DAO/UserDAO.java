@@ -1,12 +1,12 @@
-package com.springLataleLauncher.demo.DAO;
+package com.SecurityService.DAO;
 
-
-import com.springLataleLauncher.demo.entity.User;
 
 import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import com.SecurityService.entity.User;
 
 public interface UserDAO {
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;

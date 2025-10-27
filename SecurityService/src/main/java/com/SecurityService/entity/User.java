@@ -1,4 +1,4 @@
-package com.springLataleLauncher.demo.entity;
+package com.SecurityService.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.Objects;
+
+import com.springLataleLauncher.demo.entity.Characters;
 
 @Entity
 @Table(name="users", schema = "latale")
@@ -15,20 +17,23 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     @NotNull
     private String username;
 
     @Email
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     @NotNull
     private String password;
 
     @Column(name = "userinfo")
     private String userInfo;
+
+    @Column(name = "role", nullable = false)
+    private String role;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user",  orphanRemoval = true)
     private List<Characters> characters ;

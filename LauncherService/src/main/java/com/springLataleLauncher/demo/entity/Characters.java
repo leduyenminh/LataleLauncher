@@ -1,5 +1,6 @@
 package com.springLataleLauncher.demo.entity;
 
+import com.springLataleLauncher.SecurityService.entity.User;
 import com.springLataleLauncher.demo.vo.Classes;
 
 import jakarta.persistence.*;

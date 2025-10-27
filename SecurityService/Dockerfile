@@ -34,10 +34,10 @@ ENV JAVA_OPTS="java -XX:+UseZGC -Xms256m -Xmx1g -XX:MaxRAMPercentage=70.0 \
     TZ=UTC
 
 # Copy JAR from builder stage
-COPY --from=builder /app/target/LauncherService-1.0-SNAPSHOT.jar app.jar
+COPY --from=builder /app/target/SecurityService-1.0-SNAPSHOT.jar app.jar
 
 # Expose application port
-EXPOSE 4002
+EXPOSE 4005
 
 # Run application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

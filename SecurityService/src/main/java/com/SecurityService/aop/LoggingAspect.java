@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class LoggingAspect {
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-    @Pointcut("execution(* com.springLataleLauncher..*(..))")
+    @Pointcut("execution(* com.SecurityService..*(..))")
     public void applicationPackagePointcut() {}
 
     @Before("applicationPackagePointcut()")
@@ -23,7 +23,7 @@ public class LoggingAspect {
         logger.info("Entering: {}", joinPoint.getSignature());
     }
 
-    @After("execution(* com.springLataleLauncher..*(..))")
+    @After("execution(* com.SecurityService..*(..))")
     public void logAfterMethodExecution(JoinPoint joinPoint) {
         System.out.println("Method " + joinPoint.getSignature().getName() + " finished execution.");
     }
@@ -47,7 +47,7 @@ public class LoggingAspect {
     public void serviceLayer() {}
 
     // Match all methods inside the project package
-    @Pointcut("execution(* com.springLataleLauncher..*(..))")
+    @Pointcut("execution(* com.SecurityService..*(..))")
     public void allApplicationMethods() {}
 
     // Combined pointcut for Controllers and Services

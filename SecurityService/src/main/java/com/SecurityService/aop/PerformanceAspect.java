@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class PerformanceAspect {
     private static final Logger logger = LoggerFactory.getLogger(PerformanceAspect.class);
 
-    @Around("execution(* com.springLataleLauncher..*(..))")
+    @Around("execution(* com.SecurityService..*(..))")
     public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         Object result = joinPoint.proceed();

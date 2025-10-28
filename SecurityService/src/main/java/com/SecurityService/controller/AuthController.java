@@ -5,6 +5,8 @@ import com.SecurityService.entity.User;
 import com.SecurityService.interfaces.UserView;
 import com.SecurityService.interfaces.UserViewMapper;
 import com.SecurityService.utils.JwtTokenUtil;
+
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -39,6 +41,7 @@ public class AuthController {
         }
 
     @PostMapping("/login")
+    @Operation(summary = "Generate token on user login")
     public ResponseEntity<UserView> login(@Valid @RequestBody AuthRequestDTO request) {
         try {
             Authentication authenticate = authenticationManager

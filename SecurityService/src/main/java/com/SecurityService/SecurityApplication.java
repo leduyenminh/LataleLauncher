@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
+@EnableJpaRepositories("com.SecurityService.repository")
+@EntityScan("com.SecurityService.entity")
 @EnableCaching
 @EnableAsync
 public class SecurityApplication {

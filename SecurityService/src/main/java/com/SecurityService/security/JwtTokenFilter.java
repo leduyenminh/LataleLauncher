@@ -58,7 +58,7 @@ public class JwtTokenFilter implements Filter {
 
         // Get user identity and set it on the spring security context
 
-        UserDetails userDetails = Optional.of(userDAO
+        Optional<UserDetails> userDetails = Optional.of(userDAO
             .loadUserByUsername(jwtTokenUtil.extractUsername(token)))
             .orElse(null);
 
@@ -71,7 +71,7 @@ public class JwtTokenFilter implements Filter {
             authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null,
                 userDetails == null ?
-                    List.of() : userDetails.getAuthorities()
+                    List.of() : userDetails.get().getAuthorities()
             );
 
         authentication.setDetails(

@@ -15,6 +15,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 //import static sun.net.www.protocol.http.AuthenticatorKeys.getKey;
@@ -43,9 +44,9 @@ public class JwtTokenUtil {
     }
 
     // Method to validate the token
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, Optional<UserDetails> userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetails.get().getUsername()) && !isTokenExpired(token));
     }
 
     // Method to extract a specific claim from the token

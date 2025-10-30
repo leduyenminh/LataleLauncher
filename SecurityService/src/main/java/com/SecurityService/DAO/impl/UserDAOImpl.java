@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
 import java.util.List;
+import java.util.Optional;
 
 // import javax.xml.ws.ServiceMode;
 
@@ -33,12 +34,12 @@ public class UserDAOImpl implements UserDAO {
   private EntityManager em;
   
   @Override
-  public UserDetails loadUserByUsername (String username) throws UsernameNotFoundException {
+  public Optional<UserDetails> loadUserByUsername (String username) throws UsernameNotFoundException {
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<UserDetails> cq = cb.createQuery(UserDetails.class);
     Root<UserDetails> root = cq.from(UserDetails.class);
     cq.select(root).where(cb.equal(root.get("username"), username));
-    return em.createQuery(cq).getSingleResult();
+    return Optional.ofNullable(em.createQuery(cq).getSingleResult());
     // return userRepository.findByUsername(username);
   }
 
@@ -56,10 +57,10 @@ public class UserDAOImpl implements UserDAO {
   }
 
   @Override
-  public List<User> getAllUser() {
+  public Optional<List<User>> getAllUser() {
     // // TODO Auto-generated method stub
     // throw new UnsupportedOperationException("Unimplemented method 'getAllUser'");
-    return userRepository.findAll();
+    return Optional.ofNullable(userRepository.findAll());
   }
 
 }

@@ -1,11 +1,19 @@
 syntax = "proto3";
 
+// Import the standard Google Empty message definition
+import "google/protobuf/empty.proto"; 
+
 option java_multiple_files = true;
 option java_package = "update";
 option java_outer_classname = "UpdateGrpcService";
 
 service UpdateService {
-  rpc ExecuteUpdatingRequest (UpdateRequest) returns (UpdateResponse);
+  rpc CheckForUpdate (UpdateRequest) returns (UpdateResponse);
+  rpc GetCurrentVersion (google.protobuf.Empty) returns (CurrentVersion);
+}
+
+message CurrentVersion {
+  int32 currentVersion = 1;
 }
 
 message UpdateRequest {

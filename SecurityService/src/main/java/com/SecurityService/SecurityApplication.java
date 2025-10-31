@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableJpaRepositories("com.SecurityService.repository")
-@EntityScan("com.SecurityService.entity")
+@EntityScan({"com.SecurityService.entity","com.springLataleLauncher.demo.entity"})
 @EnableCaching
 @EnableAsync
 public class SecurityApplication {

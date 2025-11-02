@@ -78,7 +78,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDAO::loadUserByUsername);
+        provider.setUserDetailsService(u -> userDAO.loadUserByUsername(u).get());
                 // .orElseThrow(() -> new RuntimeException("User not found: " + username)));
         provider.setPasswordEncoder(passwordEncoder());
         return provider;

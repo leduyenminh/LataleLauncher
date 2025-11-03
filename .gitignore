@@ -1,0 +1,11 @@
+# Maven build output directory
+/target/
+
+# VS Code settings folder
+.vscode/
+
+# IDE files (IntelliJ, Eclipse, etc.)
+.idea/
+.settings/
+.classpath
+.project

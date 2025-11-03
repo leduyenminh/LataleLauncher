@@ -6,9 +6,6 @@ import com.springLataleLauncher.demo.interfaces.CharacterRequest;
 import com.springLataleLauncher.demo.interfaces.CharacterResponse;
 import com.springLataleLauncher.demo.DTO.CachingService;
 import com.springLataleLauncher.demo.DTO.CharacterService;
-import com.springLataleLauncher.demo.vo.CharacterVO;
-import com.springLataleLauncher.demo.vo.Classes;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -18,8 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 //import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/characters")
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 @Tag(name = "Characters", description = "API for Characters by each user")
 public class CharacterController {
 	@Autowired

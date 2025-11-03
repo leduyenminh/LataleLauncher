@@ -8,6 +8,10 @@ service UpdateService {
     rpc ExecuteUpdatingRequest (UpdateRequest) returns (UpdateResponse);
 }
 
+message CurrentVersion {
+  int32 currentVersion = 1;
+}
+
 message UpdateRequest {
     int32 currentVersion = 1;
 }

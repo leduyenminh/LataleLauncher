@@ -17,6 +17,7 @@ public class UpdateClientService {
      * The name "global" matches the configuration key in application.properties.
      */
     @GrpcClient("global")
+    
     private UpdateServiceGrpc.UpdateServiceBlockingStub blockingStub;
 
     public String checkForUpdate(int currentVersion) {

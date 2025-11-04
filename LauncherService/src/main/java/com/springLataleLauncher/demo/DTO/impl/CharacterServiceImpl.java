@@ -2,6 +2,7 @@ package com.springLataleLauncher.demo.DTO.impl;
 
 import com.springLataleLauncher.demo.DAO.CharacterDAO;
 import com.springLataleLauncher.demo.DTO.CharacterService;
+import com.springLataleLauncher.demo.DTO.CharacterUpdatedBioEvent;
 import com.springLataleLauncher.demo.aop.exception.CharacterValidationException;
 import com.springLataleLauncher.demo.entity.Characters;
 import com.springLataleLauncher.demo.interfaces.CharacterRequest;
@@ -83,5 +84,17 @@ public class CharacterServiceImpl implements CharacterService {
         newCharacter.setBio(characterRequest.getBio());
         newCharacter.setCharacterName(characterRequest.getCharacterName());
         return newCharacter;
+    }
+
+    @Override
+    public Boolean bioValidation() {
+        return false;
+    }
+
+    @Override
+    public void reverseCharacterBioUpdate(CharacterUpdatedBioEvent characterUpdatedBioEvent) {
+        if (bioValidation()!=true){
+            
+        }
     }
 }

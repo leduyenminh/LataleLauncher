@@ -93,6 +93,7 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public void reverseCharacterBioUpdate(CharacterUpdatedBioEvent characterUpdatedBioEvent) {
+        List<Characters> previousCharacterBio = characterDAO.getAllCharacters();
         if (bioValidation()!=true){
             
         }

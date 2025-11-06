@@ -1,5 +1,5 @@
 package com.springLataleLauncher.demo.DTO;
 
-public record CharacterUpdatedBioEvent() {
+public record CharacterUpdatedBioEvent(Long id, String name, String bio) {
 
 }

@@ -1,6 +1,6 @@
 package com.springLataleLauncher.demo.kafka;
 
-import com.SecurityService.entity.User;
+// import com.SecurityService.entity.User;
 import com.springLataleLauncher.demo.entity.Characters;
 
 import org.slf4j.Logger;
@@ -21,19 +21,19 @@ public class KafkaProducer {
     this.kafkaTemplate = kafkaTemplate;
   }
 
-  public void sendUserEvent(User user) {
-    UserEvent userEvent = UserEvent.newBuilder()
-        .setEmail(user.getEmail().toString())
-        .setName(user.getUsername())
-        .setEventType("USER_CREATED")
-        .build();
+  // public void sendUserEvent(User user) {
+  //   UserEvent userEvent = UserEvent.newBuilder()
+  //       .setEmail(user.getEmail().toString())
+  //       .setName(user.getUsername())
+  //       .setEventType("USER_CREATED")
+  //       .build();
 
-    try {
-      kafkaTemplate.send("user.events", userEvent.toByteArray());
-    } catch (Exception e) {
-      log.error("Error sending UserCreated event: {}", userEvent);
-    }
-  }
+  //   try {
+  //     kafkaTemplate.send("user.events", userEvent.toByteArray());
+  //   } catch (Exception e) {
+  //     log.error("Error sending UserCreated event: {}", userEvent);
+  //   }
+  // }
 
     public void sendCharacterEvent(Characters character) {
     CharacterEvent characterEvent = CharacterEvent.newBuilder()

@@ -174,11 +174,11 @@
             <version>4.29.1</version>
         </dependency>
 
-        <dependency>
+        <!-- <dependency>
             <groupId>com.springLataleLauncher</groupId>
             <artifactId>SecurityService</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
+        </dependency> -->
     </dependencies>
 
     <build>

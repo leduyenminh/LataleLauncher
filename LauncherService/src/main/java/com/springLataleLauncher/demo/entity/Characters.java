@@ -1,6 +1,6 @@
 package com.springLataleLauncher.demo.entity;
 
-import com.SecurityService.entity.User;
+// import com.SecurityService.entity.User;
 import com.springLataleLauncher.demo.vo.Classes;
 
 import jakarta.persistence.*;
@@ -27,9 +27,9 @@ public class Characters {
     @Column(name = "character_bio")
     private String bio;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_user_character", nullable = false, referencedColumnName = "username")
-    private User user;
+    // @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    // @JoinColumn(name = "fk_user_character", nullable = false, referencedColumnName = "username")
+    // private User user;
 
     public String getBio() {
         return bio;
@@ -55,13 +55,13 @@ public class Characters {
         this.characterName = characterName;
     }
 
-    public User getUser() {
-        return user;
-    }
+    // public User getUser() {
+    //     return user;
+    // }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    // public void setUser(User user) {
+    //     this.user = user;
+    // }
 
     public Classes getCharacterClass() {
         return characterClass;
@@ -80,7 +80,7 @@ public class Characters {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCharacterId(), getCharacterName(), getCharacterClass(), getBio(), getUser());
+        return Objects.hash(getCharacterId(), getCharacterName(), getCharacterClass(), getBio());
     }
 
     @Override
@@ -90,7 +90,6 @@ public class Characters {
                 ", characterName='" + characterName + '\'' +
                 ", characterClass=" + characterClass +
                 ", characterBio='" + bio + '\'' +
-                ", user=" + user +
                 '}';
     }
 

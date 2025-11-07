@@ -7,17 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import launcher.events.UserEvent;
 import launcher.events.CharacterEvent;
 
 @Service
-public class KafkaProducer {
+public class CharacterKafkaProducer {
 
   private static final Logger log = LoggerFactory.getLogger(
-      KafkaProducer.class);
+      CharacterKafkaProducer.class);
   private final KafkaTemplate<String, byte[]> kafkaTemplate;
 
-  public KafkaProducer(KafkaTemplate<String, byte[]> kafkaTemplate) {
+  public CharacterKafkaProducer(KafkaTemplate<String, byte[]> kafkaTemplate) {
     this.kafkaTemplate = kafkaTemplate;
   }
 
@@ -35,10 +34,11 @@ public class KafkaProducer {
   //   }
   // }
 
-    public void sendCharacterEvent(Characters character) {
+    public void sendCharacterEvent(Characters character, String eventType) {
     CharacterEvent characterEvent = CharacterEvent.newBuilder()
+        .setCharacterId(character.getCharacterId().toString(0))
         .setName(character.getCharacterName())
-        .setEventType("CHARACTER_CREATED")
+        .setEventType(eventType)
         .build();
 
     try {

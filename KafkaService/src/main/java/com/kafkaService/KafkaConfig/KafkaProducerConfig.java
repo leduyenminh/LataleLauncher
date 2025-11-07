@@ -40,9 +40,9 @@ public class KafkaProducerConfig {
 	}
 
 
-	public void publishCharacterEvent(CharacterEvent event) {
-		kafkaTemplate(producerFactory()).send("character.events", event.toString(), event);
-		// kafkaTemplate.send("character.events", event.toString(), event);
-	}
+	// public void publishCharacterEvent(CharacterEvent event) {
+	// 	kafkaTemplate(producerFactory()).send("character.events", event.toString(), event);
+	// 	// kafkaTemplate.send("character.events", event.toString(), event);
+	// }
 
 }

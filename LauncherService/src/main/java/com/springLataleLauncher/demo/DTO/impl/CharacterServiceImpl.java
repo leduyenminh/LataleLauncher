@@ -7,20 +7,25 @@ import com.springLataleLauncher.demo.aop.exception.CharacterValidationException;
 import com.springLataleLauncher.demo.entity.Characters;
 import com.springLataleLauncher.demo.interfaces.CharacterRequest;
 import com.springLataleLauncher.demo.interfaces.CharacterResponse;
-import com.springLataleLauncher.demo.kafka.KafkaProducer;
+import com.springLataleLauncher.demo.kafka.CharacterKafkaProducer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
+    private final List<String> sensitiveWords = Arrays.asList("damn", "black");
+
     @Autowired
     private CharacterDAO characterDAO;
 
     @Autowired
-    private KafkaProducer kafkaProducer;
+    private CharacterKafkaProducer kafkaProducer;
 
     @Override
     public List<CharacterResponse> getAllCharacters(){
@@ -42,7 +47,7 @@ public class CharacterServiceImpl implements CharacterService {
         Characters newCharacter = characterDAO.createNewCharacter(newCharacterRequest);
         CharacterResponse characterVO = toCharacterResponse(newCharacter);
 
-        kafkaProducer.sendCharacterEvent(newCharacter);
+        kafkaProducer.sendCharacterEvent(newCharacter, "CREATE_CHARACTER");
 
         return characterVO;
     }
@@ -62,12 +67,15 @@ public class CharacterServiceImpl implements CharacterService {
 
         character.setBio(characterRequest.getBio());
         character.setCharacterName(characterRequest.getCharacterName());
+
+        kafkaProducer.sendCharacterEvent(character, "UPDATE_CHARACTER");
         return toCharacterResponse(character);
     }
 
     @Override
     public void deleteCharacter(Long id){
         characterDAO.deleteById(id);
+        kafkaProducer.sendCharacterEvent(characterDAO.findCharacterById(id).get(), "DELETE_CHARACTER");
     }
 
     private CharacterResponse toCharacterResponse(Characters characters) {
@@ -87,14 +95,30 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public Boolean bioValidation() {
-        return false;
+    public Boolean bioValidation(CharacterUpdatedBioEvent event) {
+        boolean containsSensitiveWords = sensitiveWords.stream()
+                .anyMatch(word -> event.bio().toLowerCase().contains(word));
+
+        if (containsSensitiveWords) {
+            // Publish failure event
+            CharacterUpdatedBioEvent failureEvent = new CharacterUpdatedBioEvent(event.id(),event.name(), "Contains sensitive content");
+            kafkaProducer.sendCharacterEvent(characterDAO.findCharacterById(failureEvent.id()).get(), "bio.update.failed");
+        } else {
+            // Publish success event (this may trigger other services if necessary, 
+            // but for this simple case, it confirms completion)
+            CharacterUpdatedBioEvent successEvent = new CharacterUpdatedBioEvent(event.id(),event.name(), "");
+            kafkaProducer.sendCharacterEvent(characterDAO.findCharacterById(successEvent.id()).get(), "bio.update.success");
+        }
+        return containsSensitiveWords;
     }
 
     @Override
+    @KafkaListener(topics = "character.events", groupId = "latale-kafka-service")
     public void reverseCharacterBioUpdate(CharacterUpdatedBioEvent characterUpdatedBioEvent) {
-        List<Characters> previousCharacterBio = characterDAO.getAllCharacters();
-        if (bioValidation()!=true){
+        Characters characterUpdating = characterDAO.findCharacterById(characterUpdatedBioEvent.id()).get();
+        String previousBio = characterUpdating.getBio();
+        if (!bioValidation(characterUpdatedBioEvent)){
+            
             
         }
     }

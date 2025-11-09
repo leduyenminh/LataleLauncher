@@ -1,4 +1,4 @@
-package com.SecurityService.entity;
+package com.springLataleLauncher.demo.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -35,8 +35,8 @@ public class User {
     @Column(name = "role", nullable = false)
     private String role;
 
-    // @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user",  orphanRemoval = true)
-    // private List<Characters> characters ;
+     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user",  orphanRemoval = true)
+     private List<Characters> characters ;
 
     public Long getUserId() {
         return userId;
@@ -54,13 +54,13 @@ public class User {
         this.password = password;
     }
 
-    // public List<Characters> getCharacters() {
-    //     return characters;
-    // }
+     public List<Characters> getCharacters() {
+         return characters;
+     }
 
-    // public void setCharacters(List<Characters> characters) {
-    //     this.characters = characters;
-    // }
+     public void setCharacters(List<Characters> characters) {
+         this.characters = characters;
+     }
 		
     public String getUserInfo() {
         return userInfo;

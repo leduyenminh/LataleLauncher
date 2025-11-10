@@ -11,6 +11,6 @@ public interface CharacterService {
     CharacterResponse createCharacter(CharacterRequest characterRequest);
     CharacterResponse updateCharacter(Long id, CharacterRequest characterRequest);
     void deleteCharacter(Long id);
-    Boolean bioValidation(CharacterUpdatedBioEvent event);
-    void reverseCharacterBioUpdate(CharacterUpdatedBioEvent characterUpdatedBioEvent);
+    // Boolean bioValidation(CharacterUpdatedBioEvent event);
+    void characterBioUpdate(CharacterUpdatedBioEvent characterUpdatedBioEvent);
 }

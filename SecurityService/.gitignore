@@ -1,0 +1,23 @@
+HELP.md
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Maven build output directory
+/target/
+
+# VS Code settings folder
+.vscode/
+
+# IDE files (IntelliJ, Eclipse, etc.)
+.idea/
+*.iws
+*.iml
+*.ipr
+.settings/
+.classpath
+.project
+.apt_generated
+.factorypath
+.springBeans
+.sts4-cache

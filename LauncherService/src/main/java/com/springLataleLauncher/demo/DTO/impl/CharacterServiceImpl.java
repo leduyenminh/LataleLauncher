@@ -9,6 +9,8 @@ import com.springLataleLauncher.demo.interfaces.CharacterRequest;
 import com.springLataleLauncher.demo.interfaces.CharacterResponse;
 import com.springLataleLauncher.demo.kafka.CharacterKafkaProducer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final List<String> sensitiveWords = Arrays.asList("damn", "black");
 
     @Autowired
@@ -94,8 +97,7 @@ public class CharacterServiceImpl implements CharacterService {
         return newCharacter;
     }
 
-    @Override
-    public Boolean bioValidation(CharacterUpdatedBioEvent event) {
+    private Boolean bioValidation(CharacterUpdatedBioEvent event) {
         boolean containsSensitiveWords = sensitiveWords.stream()
                 .anyMatch(word -> event.bio().toLowerCase().contains(word));
 
@@ -114,11 +116,11 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     @KafkaListener(topics = "character.events", groupId = "latale-kafka-service")
-    public void reverseCharacterBioUpdate(CharacterUpdatedBioEvent characterUpdatedBioEvent) {
+    public void characterBioUpdate(CharacterUpdatedBioEvent characterUpdatedBioEvent) {
         Characters characterUpdating = characterDAO.findCharacterById(characterUpdatedBioEvent.id()).get();
         String previousBio = characterUpdating.getBio();
-        if (!bioValidation(characterUpdatedBioEvent)){
-            
+        if (bioValidation(characterUpdatedBioEvent)){
+            logger.info("Bio should not contain sensitve words!");
             
         }
     }

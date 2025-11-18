@@ -1,4 +1,4 @@
-package com.springLataleLauncher.demo.entity;
+package com.SecurityService.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -6,8 +6,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-// import com.springLataleLauncher.demo.entity.Characters;
+//import com.springLataleLauncher.demo.entity.Characters;
 
 @Entity
 @Table(name="users", schema = "latale")
@@ -15,7 +16,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private Long userId;
+    private UUID userId;
 
     @Column(name = "username", unique = true, nullable = false)
     @NotNull
@@ -35,14 +36,14 @@ public class User {
     @Column(name = "role", nullable = false)
     private String role;
 
-     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user",  orphanRemoval = true)
-     private List<Characters> characters ;
+//   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user",  orphanRemoval = true)
+//   private List<Characters> characters ;
 
-    public Long getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
@@ -54,13 +55,13 @@ public class User {
         this.password = password;
     }
 
-     public List<Characters> getCharacters() {
-         return characters;
-     }
+    //  public List<Characters> getCharacters() {
+    //      return characters;
+    //  }
 
-     public void setCharacters(List<Characters> characters) {
-         this.characters = characters;
-     }
+    //  public void setCharacters(List<Characters> characters) {
+    //      this.characters = characters;
+    //  }
 		
     public String getUserInfo() {
         return userInfo;

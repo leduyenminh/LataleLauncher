@@ -6,10 +6,14 @@ import com.springLataleLauncher.demo.interfaces.CharacterRequest;
 import com.springLataleLauncher.demo.interfaces.CharacterResponse;
 import com.springLataleLauncher.demo.DTO.CachingService;
 import com.springLataleLauncher.demo.DTO.CharacterService;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +31,8 @@ import java.util.List;
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 @Tag(name = "Characters", description = "API for Characters by each user")
 public class CharacterController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private CharacterDAO characterDAO;
 
@@ -40,6 +46,7 @@ public class CharacterController {
 
 	// QUERY CREATION
 	@GetMapping
+	@CircuitBreaker(name = "characterCircuit", fallbackMethod = "fallbackCharacterCheck")
 	@Operation(summary = "Get Characters")
 	public ResponseEntity<List<CharacterResponse>> getAllCharacters() {
 		List<CharacterResponse> characterResponses = characterService.getAllCharacters();
@@ -141,4 +148,9 @@ public class CharacterController {
 	public void clearAllCaches() {
 		cachingService.evictAllCaches();
 	}
+
+	private String fallbackCharacterCheck(Throwable t) {
+        logger.error("⚠️ Launcher service unavailable. Using fallback ", t);
+        return t.getMessage();
+    }
 }

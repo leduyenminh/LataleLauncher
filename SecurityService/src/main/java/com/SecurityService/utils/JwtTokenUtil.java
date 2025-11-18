@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.SecurityService.entity.User;
+import com.SecurityService.model.User;
 
 import javax.crypto.SecretKey;
 import java.security.Key;

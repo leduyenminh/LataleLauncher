@@ -1,6 +1,6 @@
 package com.SecurityService.DAO.impl;
 
-import com.SecurityService.entity.User;
+import com.SecurityService.model.User;
 import com.SecurityService.repository.UserRepository;
 import com.SecurityService.DAO.UserDAO;
 

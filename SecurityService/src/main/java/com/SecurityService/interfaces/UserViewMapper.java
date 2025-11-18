@@ -4,7 +4,7 @@ package com.SecurityService.interfaces;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import com.springLataleLauncher.demo.entity.User;
+import com.SecurityService.model.User;
 
 @Component
 public class UserViewMapper {

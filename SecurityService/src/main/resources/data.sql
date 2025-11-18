@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-	`user_id` BIGINT NOT NULL AUTO_INCREMENT,
+	`user_id` BINARY(16) NOT NULL AUTO_INCREMENT,
 	`username` varchar(255) COLLATE utf8_bin UNIQUE NOT NULL,
 	`email` varchar(255) COLLATE utf8_bin UNIQUE NOT NULL,
 	`password` varchar(255) COLLATE utf8_bin NOT NULL,

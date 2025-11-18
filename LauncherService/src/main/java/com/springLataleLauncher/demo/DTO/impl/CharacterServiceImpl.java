@@ -31,6 +31,7 @@ public class CharacterServiceImpl implements CharacterService {
     private CharacterKafkaProducer kafkaProducer;
 
     @Override
+    
     public List<CharacterResponse> getAllCharacters(){
         List<Characters> characters = characterDAO.getAllCharacters();
         List<CharacterResponse> characterResponses = characters.stream().map(c -> toCharacterResponse(c)).toList();

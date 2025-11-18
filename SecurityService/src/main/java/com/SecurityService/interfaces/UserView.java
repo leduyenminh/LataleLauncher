@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.springLataleLauncher.demo.entity.User;
+import com.SecurityService.model.User;
 
 import java.util.Collection;
 import java.util.Collections;

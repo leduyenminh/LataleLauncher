@@ -1,13 +1,17 @@
 package com.SecurityService.controller;
 
 import com.SecurityService.DTO.AuthRequestDTO;
-import com.SecurityService.entity.User;
+import com.SecurityService.model.User;
 import com.SecurityService.interfaces.UserView;
 import com.SecurityService.interfaces.UserViewMapper;
 import com.SecurityService.utils.JwtTokenUtil;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "api/public")
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class AuthController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserViewMapper userView;
@@ -44,6 +49,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @Operation(summary = "Generate token on user login")
+    @CircuitBreaker(name = "loginCircuit", fallbackMethod = "fallbackLoginCheck")
     public ResponseEntity<UserView> login(@Valid @RequestBody AuthRequestDTO request) {
         try {
             Authentication authenticate = authenticationManager
@@ -69,5 +75,10 @@ public class AuthController {
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    private String fallbackLoginCheck(Throwable t) {
+        logger.error("⚠️ Login failed too many attempt. Using fallback ", t);
+        return t.getMessage();
     }
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.SecurityService.entity.User;
+import com.SecurityService.model.User;
 
 public interface UserDAO {
     Optional<UserDetails> loadUserByUsername(String username) throws UsernameNotFoundException;

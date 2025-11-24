@@ -1,0 +1,23 @@
+{
+  "name": "mmorpg-launcher",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5173",
+    "start:docker": "serve -s dist -l 3000"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^4.30.0",
+    "axios": "^1.5.0",
+    "framer-motion": "^10.12.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^5.1.0"
+  }
+}

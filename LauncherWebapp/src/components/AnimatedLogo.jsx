@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import './logo.css'; // optional for extra styling
+// import './logo.css'; // optional for extra styling
 
 export default function AnimatedLogo() {
   return (
@@ -11,7 +11,7 @@ export default function AnimatedLogo() {
       className="logo-wrap"
     >
       <div className="logo-glow" />
-      <h1 className="game-title">Aether Realms</h1>
+      <h1 className="game-title">Latale</h1>
       <p className="game-sub">MMORPG Launcher</p>
     </motion.div>
   );

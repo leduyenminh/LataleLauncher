@@ -5,7 +5,7 @@ import { AuthProvider, useAuth } from './context/AuthProvider';
 import LoginPage from './pages/LoginPage';
 import ServerSelectPage from './pages/ServerSelectPage';
 import GamePage from './pages/GamePage';
-import './styles.css';
+import './style.css';
 
 const qc = new QueryClient();
 

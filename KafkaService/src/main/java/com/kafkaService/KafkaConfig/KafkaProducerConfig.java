@@ -1,9 +1,8 @@
-package ProducerConfig;
+package com.kafkaService.KafkaConfig;
 
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-import com.springLataleLauncher.demo.kafka.CharacterEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,9 +39,9 @@ public class KafkaProducerConfig {
 	}
 
 
-	// public void publishCharacterEvent(CharacterEvent event) {
-	// 	kafkaTemplate(producerFactory()).send("character.events", event.toString(), event);
-	// 	// kafkaTemplate.send("character.events", event.toString(), event);
-	// }
+	public void publishCharacterEvent(CharacterEvent event) {
+		kafkaTemplate(producerFactory()).send("character.events", event.toString(), event);
+		// kafkaTemplate.send("character.events", event.toString(), event);
+	}
 
 }

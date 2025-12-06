@@ -1,4 +1,4 @@
-package ProducerConfig;
+package com.kafkaService.KafkaConfig;
 
 import com.springLataleLauncher.demo.entity.Characters;
 import com.springLataleLauncher.demo.entity.User;

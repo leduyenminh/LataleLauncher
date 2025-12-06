@@ -1,4 +1,4 @@
-package com.springLataleLauncher.demo.aop;
+package com.kafkaService.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

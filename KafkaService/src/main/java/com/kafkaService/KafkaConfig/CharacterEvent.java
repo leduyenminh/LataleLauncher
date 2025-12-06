@@ -1,4 +1,4 @@
-package ProducerConfig;
+package com.kafkaService.KafkaConfig;
 
 public class CharacterEvent {
 	String eventId;

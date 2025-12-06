@@ -1,4 +1,4 @@
-package com.springLataleLauncher.demo.aop;
+package com.apigateway.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

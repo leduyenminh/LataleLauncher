@@ -1,4 +1,4 @@
-package com.apigateway.demo.aop;
+package com.apigateway.aop;
 
 import java.util.Arrays;
 

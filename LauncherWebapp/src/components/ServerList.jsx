@@ -1,27 +1,52 @@
-import React from "react";
+// Server list UI for showing status, population, and ping.
+import React from 'react';
 
-function ServerList({ servers, onSelect }) {
+/**
+ * Renders server cards, including loading and empty states.
+ */
+function ServerList({ servers, onSelect, loading }) {
   return (
     <div className="server-list">
-      <h2>Select Server</h2>
+      <div className="server-list-header">
+        <h2>Select Server</h2>
+        <p>Pick a realm with the best ping and availability.</p>
+      </div>
 
-      {servers.map((server) => (
-        <div key={server.id} className="server-row">
-            <div className="server-info">
-                <strong>{server.name}</strong>
-                <p>Status: <span className={server.status}>{server.status}</span></p>
-                <p>Population: {server.population}</p>
-                <p>Ping: {server.ping} ms</p>
+      {loading ? (
+        <div className="server-loading">
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="server-card shimmer">
+              <div className="shimmer-wave" />
+            </div>
+          ))}
+        </div>
+      ) : servers.length === 0 ? (
+        <div className="server-empty">No servers available right now.</div>
+      ) : (
+        servers.map((server) => (
+          <div key={server.id} className="server-card">
+            <div className="server-left">
+              <div className={`status-dot ${server.status}`} />
+              <div>
+                <div className="server-name">{server.name}</div>
+                <div className="server-meta">
+                  Status: <span className={`status-pill ${server.status}`}>{server.status}</span>
+                </div>
+                <div className="server-meta">Population: {server.population}</div>
+                <div className="server-meta">Ping: {server.ping} ms</div>
+              </div>
             </div>
 
             <button
-                disabled={server.status !== "online"}
-                onClick={() => onSelect(server.id)}
+              className="btn"
+              disabled={server.status !== 'online'}
+              onClick={() => onSelect(server.id)}
             >
-                Enter
+              Enter
             </button>
-        </div>
-      ))}
+          </div>
+        ))
+      )}
     </div>
   );
 }

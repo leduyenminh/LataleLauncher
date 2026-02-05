@@ -1,19 +1,20 @@
+// Axios client for launcher webapp requests.
 import axios from 'axios';
 import { logout } from './authApi';
 
 const api = axios.create({
-  baseURL: '/api', // change if needed
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
   timeout: 15000,
 });
 
-// Attach token to requests
+// Attach token to requests.
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('access_token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
-// Global response error handler
+// Global response error handler.
 api.interceptors.response.use(
   (res) => res,
   (err) => {

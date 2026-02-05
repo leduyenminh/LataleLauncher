@@ -1,0 +1,3 @@
+# Web launcher build artifacts and dependencies.
+node_modules/
+dist/

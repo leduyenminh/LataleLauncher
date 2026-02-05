@@ -21,20 +21,34 @@ function LoginForm({ onLogin }) {
   };
 
   return (
-    <form className="login-form" onSubmit={handleLogin}>
-      <h2>MMORPG Login</h2>
+    <form className="login-card" onSubmit={handleLogin}>
+      <div className="login-header">
+        <h2>MMORPG Login</h2>
+        <p>Sign in to continue to your realm.</p>
+      </div>
 
       {error && <p className="error">{error}</p>}
 
-      <label>Username</label>
-      <input value={username} onChange={(e) => setUsername(e.target.value)} />
+      <label htmlFor="username">Username</label>
+      <input
+        id="username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        autoComplete="username"
+        placeholder="Enter your handle"
+      />
 
-      <label>Password</label>
-      <input type="password"
-             value={password}
-             onChange={(e) => setPassword(e.target.value)} />
+      <label htmlFor="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        autoComplete="current-password"
+        placeholder="••••••••"
+      />
 
-      <button disabled={loading}>
+      <button className="btn" disabled={loading}>
         {loading ? "Logging in..." : "Login"}
       </button>
     </form>

@@ -6,7 +6,11 @@ import { useNavigate } from 'react-router-dom';
 
 export default function ServerSelectPage() {
   const navigate = useNavigate();
-  const { data: servers = [], isLoading } = useQuery(['servers'], fetchServers, {
+  const {
+    data: servers = [],
+    isLoading,
+    isError
+  } = useQuery(['servers'], fetchServers, {
     staleTime: 30_000
   });
 
@@ -17,7 +21,12 @@ export default function ServerSelectPage() {
   return (
     <div className="page centered narrow">
       <div className="panel">
-        <ServerList servers={servers} loading={isLoading} onSelect={(id) => choose.mutate(id)} />
+        {isError && <div className="error">Unable to load servers right now.</div>}
+        <ServerList
+          servers={servers}
+          loading={isLoading}
+          onSelect={(id) => choose.mutate(id)}
+        />
       </div>
     </div>
   );

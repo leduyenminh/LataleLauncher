@@ -2,7 +2,7 @@ import axios from 'axios';
 import { logout } from './authApi';
 
 const api = axios.create({
-  baseURL: '/api', // change if needed
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
   timeout: 15000,
 });
 

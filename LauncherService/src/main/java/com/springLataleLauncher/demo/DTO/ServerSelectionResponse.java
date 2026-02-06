@@ -18,6 +18,9 @@ public class ServerSelectionResponse {
     /**
      * Creates a response with a status message for the selected server.
      */
+    public ServerSelectionResponse() {
+    }
+
     public ServerSelectionResponse(String serverName, String status, String message) {
         this.serverName = serverName;
         this.status = status;

@@ -20,6 +20,9 @@ public class ServerInfo {
     /**
      * Creates a server info payload with all fields populated.
      */
+    public ServerInfo() {
+    }
+
     public ServerInfo(Long id, String name, String status, String population, Integer ping) {
         this.id = id;
         this.name = name;

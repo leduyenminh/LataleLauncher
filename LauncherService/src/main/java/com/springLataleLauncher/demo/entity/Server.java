@@ -12,6 +12,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+
 @Entity
 @Table(name = "server", schema = "latale")
 public class Server {
@@ -43,6 +51,9 @@ public class Server {
     /**
      * Creates a server entity with all persisted fields.
      */
+    public Server() {
+    }
+
     public Server(Long serverId, String serverName, String serverStatus, String serverPopulation, Integer serverPing) {
         this.serverId = serverId;
         this.serverName = serverName;

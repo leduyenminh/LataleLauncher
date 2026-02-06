@@ -4,6 +4,8 @@ import React from 'react';
 /**
  * Renders server cards, including loading and empty states.
  */
+import React from 'react';
+
 function ServerList({ servers, onSelect, loading }) {
   return (
     <div className="server-list">

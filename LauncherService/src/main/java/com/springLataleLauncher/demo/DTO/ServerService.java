@@ -15,5 +15,7 @@ public interface ServerService {
     /**
      * Handles selection of a server by name.
      */
+    java.util.List<ServerInfo> getAllServers();
+    java.util.List<ServerInfo> getFallbackServers();
     ServerSelectionResponse selectServer(String serverName);
 }

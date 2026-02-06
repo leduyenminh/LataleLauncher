@@ -1,3 +1,9 @@
+// Server list UI for showing status, population, and ping.
+import React from 'react';
+
+/**
+ * Renders server cards, including loading and empty states.
+ */
 import React from 'react';
 
 function ServerList({ servers, onSelect, loading }) {

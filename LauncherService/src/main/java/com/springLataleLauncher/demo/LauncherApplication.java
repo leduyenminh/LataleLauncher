@@ -1,5 +1,9 @@
 package com.springLataleLauncher.demo;
 
+/**
+ * Launcher service entry point with repository scanning and configuration wiring.
+ */
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -17,6 +21,9 @@ import com.springLataleLauncher.demo.config.LauncherServerProperties;
 @EnableCaching
 @EnableAsync
 public class LauncherApplication {
+	/**
+	 * Boots the Spring application context for the launcher service.
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(LauncherApplication.class, args);
 	}

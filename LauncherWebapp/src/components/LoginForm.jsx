@@ -1,11 +1,18 @@
+// Login form UI for launcher authentication.
 import React, { useState } from "react";
 
+/**
+ * Renders the login form and wires submission to the provided handler.
+ */
 function LoginForm({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  /**
+   * Submits the login credentials and surfaces errors in the UI.
+   */
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);

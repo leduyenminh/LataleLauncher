@@ -1,3 +1,4 @@
+-- Database schema definitions for the launcher service.
 --ALTER TABLE characters
 --ADD CONSTRAINT FK_char_user
 --FOREIGN KEY (fk_user_character)

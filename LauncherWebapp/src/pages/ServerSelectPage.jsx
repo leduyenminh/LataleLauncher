@@ -1,9 +1,13 @@
+// Page for selecting a server before launching the game.
 import React from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { fetchServers, chooseServerApi } from '../api/serverApi';
 import ServerList from '../components/ServerList';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Fetches and displays servers, allowing a user to select one.
+ */
 export default function ServerSelectPage() {
   const navigate = useNavigate();
   const {

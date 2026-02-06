@@ -1,4 +1,9 @@
+// Launcher game landing page UI.
 import React from 'react';
+
+/**
+ * Presents a landing panel after server selection.
+ */
 export default function GamePage() {
   return (
     <div className="page centered narrow">

@@ -1,5 +1,11 @@
 package com.springLataleLauncher.demo.controllers;
 
+/**
+ * REST controller exposing server list and selection endpoints for the launcher UI.
+ */
+
+import java.util.List;
+
 import java.util.List;
 
 import com.springLataleLauncher.demo.DTO.ServerInfo;
@@ -26,6 +32,9 @@ public class ServerController {
     @Autowired
     ServerService serverService;
 
+    /**
+     * Returns the current list of servers for the launcher UI.
+     */
     @GetMapping
     @Operation(summary = "Server Fetching API")
     @CircuitBreaker(name = "serverLauncherCircuit", fallbackMethod = "fallbackFetchServers")
@@ -33,6 +42,9 @@ public class ServerController {
         return ResponseEntity.ok(serverService.getAllServers());
     }
 
+    /**
+     * Selects a server by name, returning a status message for the client.
+     */
     @PostMapping("/{serverName}/select")
     @Operation(summary = "Server Selection API")
     @CircuitBreaker(name = "serverLauncherCircuit", fallbackMethod = "fallbackSelectServer")
@@ -40,11 +52,17 @@ public class ServerController {
         return ResponseEntity.ok(serverService.selectServer(serverName));
     }
 
+    /**
+     * Fallback for server list failures that returns configured defaults.
+     */
     private ResponseEntity<List<ServerInfo>> fallbackFetchServers(Throwable t) {
         logger.error("⚠️ Server Service has error. Using fallback ", t);
         return ResponseEntity.ok(serverService.getFallbackServers());
     }
 
+    /**
+     * Fallback for server selection failures that queues the request.
+     */
     private ResponseEntity<ServerSelectionResponse> fallbackSelectServer(String serverName, Throwable t) {
         logger.error("⚠️ Server Selection failed. Using fallback ", t);
         return ResponseEntity.ok(ServerSelectionResponse.fallback(serverName));
